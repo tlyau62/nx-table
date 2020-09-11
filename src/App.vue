@@ -1,0 +1,81 @@
+<template>
+  <div id="app">
+    <datatable :rows="rows" :columns="columns" />
+
+    <div>
+      <button @click="setRowsA()">Set rows A</button>
+      <button @click="setRowsB()">Set rows B</button>
+      <button @click="setColumnsA()">Change columnset A</button>
+      <button @click="setColumnsB()">Change columnset B</button>
+    </div>
+  </div>
+</template>
+
+<script>
+import Datatable from "@/components/Datatable";
+
+export default {
+  name: "App",
+  components: {
+    Datatable,
+  },
+  data() {
+    return {
+      rows: [],
+      columns: [],
+    };
+  },
+  methods: {
+    setRowsA() {
+      this.rows = [
+        {
+          name: "John",
+          salary: 1000,
+        },
+        {
+          name: "Peter",
+          salary: 2000,
+        },
+      ];
+    },
+    setRowsB() {
+      this.rows = [
+        {
+          name: "John",
+          salary: 1000,
+          age: 10,
+        },
+        {
+          name: "Peter",
+          salary: 2000,
+          age: 20,
+        },
+      ];
+    },
+    setColumnsA() {
+      this.columns = [
+        { title: "Name", data: "name" },
+        { title: "Salary", data: "salary" },
+      ];
+    },
+    setColumnsB() {
+      this.columns = [
+        { title: "Name", data: "name" },
+        { title: "Salary", data: "salary" },
+        { title: "Age", data: "age" },
+      ];
+    },
+  },
+};
+</script>
+
+<style lang="scss">
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  // text-align: center;
+  // color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
