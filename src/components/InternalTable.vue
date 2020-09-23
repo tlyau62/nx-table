@@ -80,15 +80,16 @@ const datatable = {
       return () => {};
     }
 
-    return (cell, cellData, rowData, rowIndex, colIndex) => {
+    return function (cell, cellData, rowData, rowIndex, colIndex) {
       const Component = Vue.extend(componentFactory);
 
       const instance = new Component({
         propsData: {
-          cellData,
+          cellData: a,
           rowData,
           rowIndex,
           colIndex,
+          datatable: this.DataTable(),
         },
       });
 

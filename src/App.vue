@@ -16,10 +16,24 @@
 <script>
 import Datatable from "@/components/Datatable";
 
+const RenderComponent = {
+  props: ["cellData", "rowData", "rowIndex", "colIndex"],
+  render() {
+    return <span>{this.rowData.age}</span>; // https://stackoverflow.com/questions/42414627/create-text-node-with-custom-render-function-in-vue-js
+  },
+};
+
 const TestComponent = {
   props: ["cellData", "rowData", "rowIndex", "colIndex"],
   render() {
-    return this._v(`Test ${this.rowData.age}`); // https://stackoverflow.com/questions/42414627/create-text-node-with-custom-render-function-in-vue-js
+    // return this._v(`Test ${this.rowData.age}`); // https://stackoverflow.com/questions/42414627/create-text-node-with-custom-render-function-in-vue-js
+    return <button onClick={() => this.inc()}>test</button>; // https://stackoverflow.com/questions/42414627/create-text-node-with-custom-render-function-in-vue-js
+  },
+  methods: {
+    inc() {
+      this.rowData.age++;
+      console.log(this.rowData.age);
+    },
   },
 };
 
@@ -93,6 +107,11 @@ export default {
         { title: "Name", data: "name" },
         { title: "Salary", data: "salary" },
         { title: "Age", data: "age" },
+        {
+          title: "TestAge",
+          data: "age",
+          component: RenderComponent,
+        },
         {
           title: "Icon",
           component: TestComponent,
