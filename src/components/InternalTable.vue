@@ -7,6 +7,7 @@
 <script>
 import $ from "jquery";
 import Vue from "vue";
+import _ from "lodash";
 
 // https://datatables.net/download/npm
 // core
@@ -29,6 +30,69 @@ import "datatables.net-rowreorder/js/dataTables.rowReorder.min.js";
 // import "datatables.net-rowreorder-bs4/js/rowReorder.bootstrap4.min.js";
 import "datatables.net-rowreorder-dt/js/rowReorder.dataTables.min.js";
 
+const datatable = {
+  /**
+   * state
+   */
+  componentStore: [],
+
+  /**
+   * Pure
+   */
+  addCreatedCell(columns, createdCellCallback) {
+    return _.cloneDeep(columns).map((col) => {
+      let cb = createdCellCallback(col);
+
+      if (col.createdCell) {
+        cb = (cell, cellData, rowData, rowIndex, colIndex) => {
+          col.createdCell(cell, cellData, rowData, rowIndex, colIndex);
+          cb(cell, cellData, rowData, rowIndex, colIndex);
+        };
+      }
+
+      col.createdCell = cb;
+
+      return col;
+    });
+  },
+
+  /**
+   * Impure
+   */
+  createComponent(componentStore, componentFactory) {
+    if (!componentFactory) {
+      return () => {};
+    }
+
+    return (cell, cellData, rowData, rowIndex, colIndex) => {
+      const Component = Vue.extend(componentFactory);
+
+      const instance = new Component({
+        propsData: {
+          cellData,
+          rowData,
+          rowIndex,
+          colIndex,
+        },
+      });
+
+      componentStore.push(instance);
+
+      $(cell).empty();
+
+      cell.appendChild(instance.$mount().$el);
+    };
+  },
+
+  processColumns(columns) {
+    return (
+      datatable.addCreatedCell(columns, (col) =>
+        datatable.createComponent(this.componentStore, col.component)
+      ) || []
+    );
+  },
+};
+
 export default {
   props: ["rows", "columns"],
   data() {
@@ -49,7 +113,7 @@ export default {
       .find(".internal-table__table")
       .DataTable({
         data: this.rows || [],
-        columns: this.columns || [],
+        columns: datatable.processColumns(this.columns),
       });
   },
   beforeDestroy() {
