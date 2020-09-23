@@ -39,26 +39,42 @@ const datatable = {
   /**
    * Pure
    */
+  mergeFunction(obj, option, propertyFunc) {
+    const cloneObj = _.cloneDeep(obj);
+    let cb = propertyFunc;
+
+    if (cloneObj[option]) {
+      cb = (...args) => {
+        cloneObj[option](...args);
+        cb(...args);
+      };
+    }
+
+    cloneObj[option] = cb;
+
+    return cloneObj;
+  },
+
   addCreatedCell(columns, createdCellCallback) {
-    return _.cloneDeep(columns).map((col) => {
-      let cb = createdCellCallback(col);
+    return _.cloneDeep(columns).map((col) =>
+      this.mergeFunction(col, "createdCell", createdCellCallback(col))
+    );
+  },
 
-      if (col.createdCell) {
-        cb = (cell, cellData, rowData, rowIndex, colIndex) => {
-          col.createdCell(cell, cellData, rowData, rowIndex, colIndex);
-          cb(cell, cellData, rowData, rowIndex, colIndex);
-        };
-      }
-
-      col.createdCell = cb;
-
-      return col;
-    });
+  addPreDraw(settings, preDrawCallback) {
+    return this.mergeFunction(settings, "preDrawCallback", preDrawCallback);
   },
 
   /**
    * Impure
    */
+  cleanComponentStore() {
+    for (const component of this.componentStore) {
+      component.$destroy();
+    }
+    this.componentStore = [];
+  },
+
   createComponent(componentStore, componentFactory) {
     if (!componentFactory) {
       return () => {};
@@ -111,10 +127,17 @@ export default {
 
     this.table = $(this.$el)
       .find(".internal-table__table")
-      .DataTable({
-        data: this.rows || [],
-        columns: datatable.processColumns(this.columns),
-      });
+      .DataTable(
+        datatable.addPreDraw(
+          {
+            data: this.rows || [],
+            columns: datatable.processColumns(this.columns),
+          },
+          () => {
+            datatable.cleanComponentStore();
+          }
+        )
+      );
   },
   beforeDestroy() {
     if (this.table) {
