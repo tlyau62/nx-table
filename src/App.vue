@@ -18,14 +18,16 @@ import Datatable from "@/components/Datatable";
 
 const RenderComponent = {
   props: ["cellData", "rowData", "rowIndex", "colIndex"],
-  render() {
+  // eslint-disable-next-line no-unused-vars
+  render(h) {
     return this._v(this.rowData.age); // https://stackoverflow.com/questions/42414627/create-text-node-with-custom-render-function-in-vue-js
   },
 };
 
 const TestComponent = {
   props: ["cellData", "rowData", "rowIndex", "colIndex"],
-  render() {
+  // eslint-disable-next-line no-unused-vars
+  render(h) {
     return <button onClick={() => this.inc()}>test</button>; // https://stackoverflow.com/questions/42414627/create-text-node-with-custom-render-function-in-vue-js
   },
   methods: {

@@ -151,7 +151,7 @@ export default {
     rows(val) {
       this.table.clear().rows.add(val).draw();
     },
-    columns(val) {
+    columns() {
       this.$emit("refresh");
     },
   },

@@ -1,6 +1,6 @@
 <template>
   <div class="datatable">
-    <internal-table
+    <datatable-intern
       class="datatable__table"
       :key="id"
       @refresh="refresh"
@@ -11,13 +11,12 @@
 </template>
 
 <script>
-import InternalTable from "@/components/InternalTable";
-import $ from "jquery";
+import DatatableIntern from "@/components/DatatableIntern";
 
 export default {
   name: "Datatable",
   components: {
-    InternalTable,
+    DatatableIntern,
   },
   data() {
     return {
