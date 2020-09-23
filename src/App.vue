@@ -19,7 +19,7 @@ import Datatable from "@/components/Datatable";
 const TestComponent = {
   props: ["cellData", "rowData", "rowIndex", "colIndex"],
   render() {
-    return <span>Test {this.rowData.age}</span>;
+    return this._v(`Test ${this.rowData.age}`); // https://stackoverflow.com/questions/42414627/create-text-node-with-custom-render-function-in-vue-js
   },
 };
 
