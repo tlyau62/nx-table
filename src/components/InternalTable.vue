@@ -85,7 +85,7 @@ const datatable = {
 
       const instance = new Component({
         propsData: {
-          cellData: a,
+          cellData,
           rowData,
           rowIndex,
           colIndex,
