@@ -10,7 +10,7 @@
       <button @click="setColumnsC()">Change columnset C</button>
     </div>
 
-    <div>
+    <!-- <div>
       <h4>Normal</h4>
       <datatable
         :rows="rows"
@@ -30,6 +30,18 @@
         :processing="true"
         :select="{style: 'os', blurable: true}"
         @order="order"
+      />
+    </div>-->
+
+    <div>
+      <h4>Row reorder</h4>
+      <datatable
+        :rows="rows"
+        :columns="columns"
+        :server-side="true"
+        :processing="true"
+        :row-reorder="true"
+        @row-reorder="reorderRow"
       />
     </div>
   </div>
@@ -152,6 +164,9 @@ export default {
         .sort((a, b) => (_.get(a, col.data) > _.get(b, col.data) ? 1 : -1));
 
       this.rows = order.dir === "asc" ? rows : rows.reverse();
+    },
+    reorderRow(evt) {
+      this.rows = evt.reorderedRow;
     },
   },
 };

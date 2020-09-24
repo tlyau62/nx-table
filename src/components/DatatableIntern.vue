@@ -162,6 +162,12 @@ export default {
       type: [Boolean, Object],
       default: false,
     },
+
+    // https://datatables.net/reference/option/rowReorder
+    rowReorder: {
+      type: [Boolean, Object],
+      default: false,
+    },
   },
   data() {
     return {
@@ -199,6 +205,7 @@ export default {
             info: this.info,
             autoWidth: this.autoWidth,
             select: this.select,
+            rowReorder: this.rowReorder,
           },
           () => {
             datatable.cleanComponentStore();
@@ -208,6 +215,22 @@ export default {
 
     this.table.on("order.dt", (e, settings, ordArr) => {
       this.$emit("order", { e, settings, ordArr });
+    });
+
+    this.table.on("row-reorder.dt", (e, diff, edit) => {
+      const reorderedRow = new Array(this.rows.length);
+
+      for (const d of diff) {
+        reorderedRow[d.newPosition] = this.rows[d.oldPosition];
+      }
+
+      for (const [i, value] of reorderedRow.entries()) {
+        if (value === undefined) {
+          reorderedRow[i] = this.rows[i];
+        }
+      }
+
+      this.$emit("row-reorder", { e, diff, edit, reorderedRow });
     });
   },
   beforeDestroy() {
