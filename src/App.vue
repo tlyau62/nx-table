@@ -41,6 +41,7 @@
         :server-side="true"
         :processing="true"
         :row-reorder="true"
+        :select="{ style: 'os', blurable: true }"
         @row-reorder="reorderRow"
       />
     </div>

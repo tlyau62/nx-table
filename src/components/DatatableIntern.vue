@@ -8,6 +8,9 @@
 import $ from "jquery";
 import Vue from "vue";
 import _ from "lodash";
+import datatableService from "./datatable.service";
+import datatableReorderMixin from "./datatable-reorder.mixin";
+import datatableSelectMixin from "./datatable-select.mixin";
 
 // https://datatables.net/download/npm
 // core
@@ -30,108 +33,14 @@ import "datatables.net-rowreorder/js/dataTables.rowReorder.min.js";
 // import "datatables.net-rowreorder-bs4/js/rowReorder.bootstrap4.min.js";
 import "datatables.net-rowreorder-dt/js/rowReorder.dataTables.min.js";
 
-const datatable = {
-  /**
-   * state
-   */
-  componentStore: [],
-
-  /**
-   * Pure
-   */
-  mergeFunction(obj, option, propertyFunc) {
-    const cloneObj = _.cloneDeep(obj);
-    let cb = propertyFunc;
-
-    if (cloneObj[option]) {
-      cb = (...args) => {
-        cloneObj[option](...args);
-        cb(...args);
-      };
-    }
-
-    cloneObj[option] = cb;
-
-    return cloneObj;
-  },
-
-  addCreatedCell(columns, createdCellCallback) {
-    return _.cloneDeep(columns).map((col) =>
-      this.mergeFunction(col, "createdCell", createdCellCallback(col))
-    );
-  },
-
-  addPreDraw(settings, preDrawCallback) {
-    return this.mergeFunction(settings, "preDrawCallback", preDrawCallback);
-  },
-
-  calculateReorderedRow(rows, diff) {
-    const reorderedRow = new Array(rows.length);
-
-    for (const d of diff) {
-      reorderedRow[d.newPosition] = rows[d.oldPosition];
-    }
-
-    for (const [i, value] of reorderedRow.entries()) {
-      if (value === undefined) {
-        reorderedRow[i] = rows[i];
-      }
-    }
-
-    return reorderedRow;
-  },
-
-  /**
-   * Impure
-   */
-  cleanComponentStore() {
-    for (const component of this.componentStore) {
-      component.$destroy();
-    }
-    this.componentStore = [];
-  },
-
-  createComponent(componentStore, componentFactory) {
-    if (!componentFactory) {
-      return () => {};
-    }
-
-    return function (cell, cellData, rowData, rowIndex, colIndex) {
-      const Component = Vue.extend(componentFactory);
-
-      const instance = new Component({
-        propsData: {
-          cellData,
-          rowData,
-          rowIndex,
-          colIndex,
-          datatable: this.DataTable(),
-        },
-      });
-
-      componentStore.push(instance);
-
-      $(cell).empty();
-
-      cell.appendChild(instance.$mount().$el);
-    };
-  },
-
-  processColumns(columns) {
-    return (
-      datatable.addCreatedCell(columns, (col) =>
-        datatable.createComponent(this.componentStore, col.component)
-      ) || []
-    );
-  },
-};
-
 export default {
+  mixins: [datatableReorderMixin, datatableSelectMixin],
   props: {
     rows: {
       type: Array,
       default: () => [],
     },
+
     columns: {
       type: Array,
       default: () => [],
@@ -172,23 +81,34 @@ export default {
       type: Boolean,
       default: false, // should always false
     },
-
-    // https://datatables.net/reference/option/#select
-    select: {
-      type: [Boolean, Object],
-      default: false,
-    },
-
-    // https://datatables.net/reference/option/rowReorder
-    rowReorder: {
-      type: [Boolean, Object],
-      default: false,
-    },
   },
   data() {
     return {
       table: null,
     };
+  },
+  beforeCreate() {
+    this.config = {};
+  },
+  created() {
+    _.merge(this.config, {
+      ajax: (data, callback) => {
+        if (this.rowWatcher) {
+          this.populateTable(this.rows, callback);
+        } else {
+          this.rowWatcher = this.$watch("rows", (val) =>
+            this.populateTable(val, callback)
+          );
+        }
+      },
+      columns: datatableService.processColumns(this.columns),
+      serverSide: this.serverSide,
+      processing: this.processing,
+      paging: this.paging,
+      searching: this.searching,
+      info: this.info,
+      autoWidth: this.autoWidth,
+    });
   },
   mounted() {
     if (this.table) {
@@ -202,44 +122,13 @@ export default {
     this.table = $(this.$el)
       .find(".internal-table__table")
       .DataTable(
-        datatable.addPreDraw(
-          {
-            ajax: (data, callback) => {
-              if (this.rowWatcher) {
-                this.populateTable(this.rows, callback);
-              } else {
-                this.rowWatcher = this.$watch("rows", (val) =>
-                  this.populateTable(val, callback)
-                );
-              }
-            },
-            columns: datatable.processColumns(this.columns),
-            serverSide: this.serverSide,
-            processing: this.processing,
-            paging: this.paging,
-            searching: this.searching,
-            info: this.info,
-            autoWidth: this.autoWidth,
-            select: this.select,
-            rowReorder: this.rowReorder,
-          },
-          () => {
-            datatable.cleanComponentStore();
-          }
+        datatableService.addPreDraw(this.config, () =>
+          datatableService.cleanComponentStore()
         )
       );
 
     this.table.on("order.dt", (e, settings, ordArr) => {
       this.$emit("order", { e, settings, ordArr });
-    });
-
-    this.table.on("row-reorder.dt", (e, diff, edit) => {
-      this.$emit("row-reorder", {
-        e,
-        diff,
-        edit,
-        reorderedRow: datatable.calculateReorderedRow(this.rows, diff),
-      });
     });
   },
   beforeDestroy() {
