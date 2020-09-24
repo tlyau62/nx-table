@@ -46,7 +46,10 @@ export default {
       default: () => [],
     },
 
-    // https://datatables.net/reference/option/serverSide
+    /**
+     * https://datatables.net/reference/option/serverSide
+     * set to true to enable server-side sorting
+     */
     serverSide: {
       type: Boolean,
       default: false,
@@ -76,10 +79,13 @@ export default {
       default: false,
     },
 
-    // https://datatables.net/reference/option/autoWidth
+    /**
+     * https://datatables.net/reference/option/autoWidth
+     * should always be false else width will not be responsive
+     */
     autoWidth: {
       type: Boolean,
-      default: false, // should always false
+      default: false,
     },
   },
   data() {

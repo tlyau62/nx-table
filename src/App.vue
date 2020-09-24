@@ -10,29 +10,6 @@
       <button @click="setColumnsC()">Change columnset C</button>
     </div>
 
-    <!-- <div>
-      <h4>Normal</h4>
-      <datatable
-        :rows="rows"
-        :columns="columns"
-        :serverSide="true"
-        :processing="true"
-        @order="order"
-      />
-    </div>
-
-    <div>
-      <h4>Select</h4>
-      <datatable
-        :rows="rows"
-        :columns="columns"
-        :serverSide="true"
-        :processing="true"
-        :select="{style: 'os', blurable: true}"
-        @order="order"
-      />
-    </div>-->
-
     <div>
       <h4>Row reorder</h4>
       <datatable
@@ -43,6 +20,7 @@
         :row-reorder="true"
         :select="{ style: 'os', blurable: true }"
         @row-reorder="reorderRow"
+        @order="order"
       />
     </div>
   </div>
