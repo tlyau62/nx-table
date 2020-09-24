@@ -154,7 +154,7 @@ export default {
     // https://datatables.net/reference/option/autoWidth
     autoWidth: {
       type: Boolean,
-      default: false,
+      default: false, // should always false
     },
   },
   data() {

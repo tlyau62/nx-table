@@ -116,7 +116,7 @@ export default {
       this.columns = [
         { title: "Name", data: "name" },
         { title: "Salary", data: "salary" },
-        { title: "Age", data: "age" },
+        { title: "Age", data: "age", width: "20px" },
         {
           title: "TestAge",
           data: "age",
