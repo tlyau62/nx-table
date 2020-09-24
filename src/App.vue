@@ -3,6 +3,7 @@
     <datatable :rows="rows" :columns="columns" />
 
     <div>
+      <button @click="setEmptyRows()">Set empty rows</button>
       <button @click="setRowsA()">Set rows A</button>
       <button @click="setRowsB()">Set rows B</button>
       <button @click="setRowsC()">Set rows C</button>
@@ -33,7 +34,6 @@ const TestComponent = {
   methods: {
     inc() {
       this.rowData.age++;
-      console.log(this.rowData.age);
     },
   },
 };
@@ -50,6 +50,9 @@ export default {
     };
   },
   methods: {
+    setEmptyRows() {
+      this.rows = [];
+    },
     setRowsA() {
       this.rows = [
         {

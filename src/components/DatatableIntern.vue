@@ -131,7 +131,14 @@ export default {
       .DataTable(
         datatable.addPreDraw(
           {
-            data: this.rows || [],
+            ajax: (data, callback) => {
+              this.$watch("rows", (val) => {
+                this.table.clear();
+                callback({
+                  data: val || [],
+                });
+              });
+            },
             columns: datatable.processColumns(this.columns),
           },
           () => {
@@ -148,9 +155,6 @@ export default {
     }
   },
   watch: {
-    rows(val) {
-      this.table.clear().rows.add(val).draw();
-    },
     columns() {
       this.$emit("refresh");
     },
