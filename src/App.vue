@@ -10,13 +10,28 @@
       <button @click="setColumnsC()">Change columnset C</button>
     </div>
 
-    <datatable
-      :rows="rows"
-      :columns="columns"
-      :serverSide="true"
-      :processing="true"
-      @order="order"
-    />
+    <div>
+      <h4>Normal</h4>
+      <datatable
+        :rows="rows"
+        :columns="columns"
+        :serverSide="true"
+        :processing="true"
+        @order="order"
+      />
+    </div>
+
+    <div>
+      <h4>Select</h4>
+      <datatable
+        :rows="rows"
+        :columns="columns"
+        :serverSide="true"
+        :processing="true"
+        :select="{style: 'os', blurable: true}"
+        @order="order"
+      />
+    </div>
   </div>
 </template>
 

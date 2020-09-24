@@ -156,6 +156,12 @@ export default {
       type: Boolean,
       default: false, // should always false
     },
+
+    // https://datatables.net/reference/option/#select
+    select: {
+      type: [Boolean, Object],
+      default: false,
+    },
   },
   data() {
     return {
@@ -192,6 +198,7 @@ export default {
             searching: this.searching,
             info: this.info,
             autoWidth: this.autoWidth,
+            select: this.select,
           },
           () => {
             datatable.cleanComponentStore();
@@ -236,7 +243,4 @@ export default {
     width: 100%;
   }
 }
-</style>
-
-<style lang="scss">
 </style>
