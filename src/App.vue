@@ -1,6 +1,12 @@
 <template>
   <div id="app">
-    <datatable :rows="rows" :columns="columns" :serverSide="true" :processing="true" />
+    <datatable
+      :rows="rows"
+      :columns="columns"
+      :serverSide="true"
+      :processing="true"
+      @order="order"
+    />
 
     <div>
       <button @click="setEmptyRows()">Set empty rows</button>
@@ -122,6 +128,15 @@ export default {
           data: "age",
         },
       ];
+    },
+    order(evt) {
+      const order = evt.ordArr[0];
+      const col = this.columns[order.col];
+      const rows = this.rows
+        .slice()
+        .sort((a, b) => (_.get(a, col.data) > _.get(b, col.data) ? 1 : -1));
+
+      this.rows = order.dir === "asc" ? rows : rows.reverse();
     },
   },
 };

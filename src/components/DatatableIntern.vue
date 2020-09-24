@@ -153,14 +153,13 @@ export default {
         datatable.addPreDraw(
           {
             ajax: (data, callback) => {
-              this.rowWatchers ??= this.$watch("rows", (val) => {
-                this.table.clear();
-                callback({
-                  data: val || [],
-                  recordsTotal: val ? val.length : 0,
-                  recordsFiltered: val ? val.length : 0,
-                });
-              });
+              if (this.rowWatcher) {
+                this.populateTable(this.rows, callback);
+              } else {
+                this.rowWatcher = this.$watch("rows", (val) =>
+                  this.populateTable(val, callback)
+                );
+              }
             },
             columns: datatable.processColumns(this.columns),
             serverSide: this.serverSide,
@@ -171,6 +170,10 @@ export default {
           }
         )
       );
+
+    this.table.on("order.dt", (e, settings, ordArr) => {
+      this.$emit("order", { e, settings, ordArr });
+    });
   },
   beforeDestroy() {
     if (this.table) {
@@ -182,6 +185,16 @@ export default {
   watch: {
     columns() {
       this.$emit("refresh");
+    },
+  },
+  methods: {
+    populateTable(rows, callback) {
+      this.table.clear();
+      callback({
+        data: rows || [],
+        recordsTotal: rows ? rows.length : 0,
+        recordsFiltered: rows ? rows.length : 0,
+      });
     },
   },
 };
