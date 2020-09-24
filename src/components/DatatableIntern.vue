@@ -1,6 +1,6 @@
 <template>
   <div class="internal-table">
-    <table class="internal-table__table" v-bind="$attrs"></table>
+    <table class="internal-table__table display" v-bind="$attrs"></table>
   </div>
 </template>
 
