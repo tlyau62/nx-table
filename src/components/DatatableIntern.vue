@@ -132,6 +132,30 @@ export default {
       type: Boolean,
       default: false,
     },
+
+    // https://datatables.net/reference/option/paging
+    paging: {
+      type: Boolean,
+      default: false,
+    },
+
+    // https://datatables.net/reference/option/searching
+    searching: {
+      type: Boolean,
+      default: false,
+    },
+
+    // https://datatables.net/reference/option/info
+    info: {
+      type: Boolean,
+      default: false,
+    },
+
+    // https://datatables.net/reference/option/autoWidth
+    autoWidth: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -164,6 +188,10 @@ export default {
             columns: datatable.processColumns(this.columns),
             serverSide: this.serverSide,
             processing: this.processing,
+            paging: this.paging,
+            searching: this.searching,
+            info: this.info,
+            autoWidth: this.autoWidth,
           },
           () => {
             datatable.cleanComponentStore();
