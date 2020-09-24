@@ -65,6 +65,22 @@ const datatable = {
     return this.mergeFunction(settings, "preDrawCallback", preDrawCallback);
   },
 
+  calculateReorderedRow(rows, diff) {
+    const reorderedRow = new Array(rows.length);
+
+    for (const d of diff) {
+      reorderedRow[d.newPosition] = rows[d.oldPosition];
+    }
+
+    for (const [i, value] of reorderedRow.entries()) {
+      if (value === undefined) {
+        reorderedRow[i] = rows[i];
+      }
+    }
+
+    return reorderedRow;
+  },
+
   /**
    * Impure
    */
@@ -218,19 +234,12 @@ export default {
     });
 
     this.table.on("row-reorder.dt", (e, diff, edit) => {
-      const reorderedRow = new Array(this.rows.length);
-
-      for (const d of diff) {
-        reorderedRow[d.newPosition] = this.rows[d.oldPosition];
-      }
-
-      for (const [i, value] of reorderedRow.entries()) {
-        if (value === undefined) {
-          reorderedRow[i] = this.rows[i];
-        }
-      }
-
-      this.$emit("row-reorder", { e, diff, edit, reorderedRow });
+      this.$emit("row-reorder", {
+        e,
+        diff,
+        edit,
+        reorderedRow: datatable.calculateReorderedRow(this.rows, diff),
+      });
     });
   },
   beforeDestroy() {
