@@ -37,16 +37,10 @@ const datatable = {
   },
 
   calculateReorderedRow(rows, diff) {
-    const reorderedRow = new Array(rows.length);
+    const reorderedRow = rows.slice();
 
     for (const d of diff) {
       reorderedRow[d.newPosition] = rows[d.oldPosition];
-    }
-
-    for (const [i, value] of reorderedRow.entries()) {
-      if (value === undefined) {
-        reorderedRow[i] = rows[i];
-      }
     }
 
     return reorderedRow;
