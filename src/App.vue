@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <datatable :rows="rows" :columns="columns" />
+    <datatable :rows="rows" :columns="columns" :serverSide="true" :processing="true" />
 
     <div>
       <button @click="setEmptyRows()">Set empty rows</button>

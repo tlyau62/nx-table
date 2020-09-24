@@ -111,7 +111,28 @@ const datatable = {
 };
 
 export default {
-  props: ["rows", "columns"],
+  props: {
+    rows: {
+      type: Array,
+      default: () => [],
+    },
+    columns: {
+      type: Array,
+      default: () => [],
+    },
+
+    // https://datatables.net/reference/option/serverSide
+    serverSide: {
+      type: Boolean,
+      default: false,
+    },
+
+    // https://datatables.net/reference/option/processing
+    processing: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       table: null,
@@ -132,14 +153,18 @@ export default {
         datatable.addPreDraw(
           {
             ajax: (data, callback) => {
-              this.$watch("rows", (val) => {
+              this.rowWatchers ??= this.$watch("rows", (val) => {
                 this.table.clear();
                 callback({
                   data: val || [],
+                  recordsTotal: val ? val.length : 0,
+                  recordsFiltered: val ? val.length : 0,
                 });
               });
             },
             columns: datatable.processColumns(this.columns),
+            serverSide: this.serverSide,
+            processing: this.processing,
           },
           () => {
             datatable.cleanComponentStore();
