@@ -13,14 +13,16 @@ export default {
   },
   watch: {
     table(table) {
-      table.on("row-reorder.dt", (e, diff, edit) => {
-        this.$emit("row-reorder", {
-          e,
-          diff,
-          edit,
-          reorderedRow: datatableService.calculateReorderedRow(this.rows, diff),
+      if (this.rowReorder) {
+        table.on("row-reorder.dt", (e, diff, edit) => {
+          this.$emit("row-reorder", {
+            e,
+            diff,
+            edit,
+            reorderedRow: datatableService.calculateReorderedRow(this.rows, diff),
+          });
         });
-      });
+      }
     }
   }
 };
