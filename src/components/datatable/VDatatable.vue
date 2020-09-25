@@ -1,6 +1,6 @@
 <template>
   <div class="datatable">
-    <datatable-intern
+    <v-datatable-intern
       class="datatable__table"
       :key="id"
       @refresh="refresh"
@@ -11,12 +11,12 @@
 </template>
 
 <script>
-import DatatableIntern from "@/components/DatatableIntern";
+import VDatatableIntern from "./VDatatableIntern";
 
 export default {
-  name: "Datatable",
+  name: "VDatatable",
   components: {
-    DatatableIntern,
+    VDatatableIntern,
   },
   data() {
     return {

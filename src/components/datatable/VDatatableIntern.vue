@@ -34,6 +34,7 @@ import "datatables.net-rowreorder/js/dataTables.rowReorder.min.js";
 import "datatables.net-rowreorder-dt/js/rowReorder.dataTables.min.js";
 
 export default {
+  name: "VDatatableIntern",
   mixins: [datatableOrderMixin, datatableReorderMixin, datatableSelectMixin],
   props: {
     rows: {
