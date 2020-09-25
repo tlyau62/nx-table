@@ -71,7 +71,7 @@ const TestComponent = {
 };
 
 export default {
-  name: "App",
+  name: "ExampleTable2",
   components: {
     VDatatable,
   },
