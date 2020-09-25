@@ -103,8 +103,10 @@ export default {
         if (this.rowWatcher) {
           this.populateTable(this.rows, callback);
         } else {
-          this.rowWatcher = this.$watch("rows", (val) =>
-            this.populateTable(val, callback)
+          this.rowWatcher = this.$watch(
+            "rows",
+            (val) => this.populateTable(val, callback),
+            { immediate: true }
           );
         }
       },
@@ -149,7 +151,10 @@ export default {
   },
   methods: {
     populateTable(rows, callback) {
-      this.table.clear();
+      if (this.table) {
+        this.table.clear();
+      }
+
       callback({
         data: rows || [],
         recordsTotal: rows ? rows.length : 0,
