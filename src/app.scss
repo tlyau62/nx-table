@@ -1,4 +1,10 @@
 /**
+ * bootstrap
+ */
+@import '~bootstrap/dist/css/bootstrap.css';
+@import '~bootstrap-vue/dist/bootstrap-vue.css';
+
+/**
  * Datatable
  */
 // // core
@@ -32,3 +38,4 @@ body {
     margin: 0;
     padding: 0;
 }
+
