@@ -1,11 +1,17 @@
 <template>
   <div id="app">
-    <div>
-      <ExampleTable />
-    </div>
+    <div class="example">
+      <div class="example__section">
+        <ExampleTable />
+      </div>
 
-    <div>
-      <ExampleTable2 />
+      <div class="example__section">
+        <ExampleTable2 />
+      </div>
+
+      <div class="example__section">
+        <ExampleTable3 />
+      </div>
     </div>
   </div>
 </template>
@@ -13,12 +19,14 @@
 <script>
 import ExampleTable from "@/components/example/ExampleTable";
 import ExampleTable2 from "@/components/example/ExampleTable2";
+import ExampleTable3 from "@/components/example/ExampleTable3";
 
 export default {
   name: "App",
   components: {
     ExampleTable,
     ExampleTable2,
+    ExampleTable3,
   },
 };
 </script>
@@ -34,5 +42,11 @@ export default {
   // color: #2c3e50;
   height: 100%;
   margin: 1rem;
+
+  .example {
+    &__section {
+      margin-bottom: 2rem;
+    }
+  }
 }
 </style>
