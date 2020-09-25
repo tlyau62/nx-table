@@ -4,13 +4,29 @@
 
     <div>
       <h4>Actions</h4>
-      <button @click="setEmptyRows()">Set empty rows</button>
-      <button @click="setRowsA()">Set rows A</button>
-      <button @click="setRowsB()">Set rows B</button>
-      <button @click="setRowsC()">Set rows C</button>
-      <button @click="setColumnsA()">Change columnset A</button>
-      <button @click="setColumnsB()">Change columnset B</button>
-      <button @click="setColumnsC()">Change columnset C</button>
+
+      <div>
+        <h5>Test case A</h5>
+        <button @click="setColumnsA()">User columnset A</button>
+        <button @click="setRowsA()">Set rows A</button>
+      </div>
+
+      <div>
+        <h5>Test case B</h5>
+        <button @click="setColumnsB()">User columnset B</button>
+        <button @click="setRowsB()">Set rows B</button>
+      </div>
+
+      <div>
+        <h5>Test case C</h5>
+        <button @click="setColumnsC()">User columnset C</button>
+        <button @click="setRowsC()">Set rows C</button>
+      </div>
+
+      <div>
+        <h5>Misc</h5>
+        <button @click="setEmptyRows()">Set empty rows</button>
+      </div>
     </div>
 
     <div>
