@@ -135,6 +135,7 @@ export default {
   },
   beforeDestroy() {
     if (this.table) {
+      datatableService.cleanComponentStore();
       this.table.destroy();
       this.table = null;
       $(this.$el).empty();
