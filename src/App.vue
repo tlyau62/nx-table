@@ -10,18 +10,6 @@
       <button @click="setColumnsC()">Change columnset C</button>
     </div>
 
-    <!-- <div>
-      <h4>Row order</h4>
-      <datatable
-        :rows="rows"
-        :columns="columns"
-        :server-side="true"
-        :processing="true"
-        :select="{ style: 'os', blurable: true }"
-        @order="order"
-      />
-    </div> -->
-
     <div>
       <h4>Row reorder</h4>
       <datatable
@@ -31,7 +19,8 @@
         :processing="true"
         :select="{ style: 'os', blurable: true }"
         :row-reorder="true"
-        @row-reorder="reorderRow"
+        @row-reordered="reorderRow"
+        @order="order"
       />
     </div>
   </div>
@@ -39,6 +28,7 @@
 
 <script>
 import Datatable from "@/components/Datatable";
+import _ from "lodash";
 
 const RenderComponent = {
   props: ["cellData", "rowData", "rowIndex", "colIndex"],
@@ -147,6 +137,10 @@ export default {
       ];
     },
     order(evt) {
+      if (evt.ordArr.length === 0) {
+        return;
+      }
+
       const order = evt.ordArr[0];
       const col = this.columns[order.col];
       const rows = this.rows

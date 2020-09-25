@@ -1,4 +1,19 @@
 import datatableService from "./datatable.service";
+import _ from 'lodash';
+
+const reorder = {
+  createReorderCallback: _.curry((table, vueInstance, evtName) => {
+    return function (e, diff, edit) {
+      table.order([]); // clean current sorting effect
+      vueInstance.$emit(evtName, {
+        e,
+        diff,
+        edit,
+        reorderedRow: datatableService.calculateReorderedRow(vueInstance.rows, diff),
+      });
+    };
+  })
+};
 
 export default {
   props: {
@@ -14,14 +29,10 @@ export default {
   watch: {
     table(table) {
       if (this.rowReorder) {
-        table.on("row-reorder.dt", (e, diff, edit) => {
-          this.$emit("row-reorder", {
-            e,
-            diff,
-            edit,
-            reorderedRow: datatableService.calculateReorderedRow(this.rows, diff),
-          });
-        });
+        const createCallback = reorder.createReorderCallback(this.table, this);
+
+        table.on("row-reorder.dt", createCallback("row-reorder"));
+        table.on("row-reordered.dt", createCallback("row-reordered"));
       }
     }
   }

@@ -6,10 +6,10 @@
 
 <script>
 import $ from "jquery";
-import Vue from "vue";
 import _ from "lodash";
 import datatableService from "./datatable.service";
 import datatableReorderMixin from "./datatable-reorder.mixin";
+import datatableOrderMixin from "./datatable-order.mixin";
 import datatableSelectMixin from "./datatable-select.mixin";
 
 // https://datatables.net/download/npm
@@ -34,7 +34,7 @@ import "datatables.net-rowreorder/js/dataTables.rowReorder.min.js";
 import "datatables.net-rowreorder-dt/js/rowReorder.dataTables.min.js";
 
 export default {
-  mixins: [datatableReorderMixin, datatableSelectMixin],
+  mixins: [datatableOrderMixin, datatableReorderMixin, datatableSelectMixin],
   props: {
     rows: {
       type: Array,
@@ -132,10 +132,6 @@ export default {
           datatableService.cleanComponentStore()
         )
       );
-
-    this.table.on("order.dt", (e, settings, ordArr) => {
-      this.$emit("order", { e, settings, ordArr });
-    });
   },
   beforeDestroy() {
     if (this.table) {

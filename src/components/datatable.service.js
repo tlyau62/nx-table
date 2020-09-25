@@ -1,5 +1,6 @@
 import Vue from "vue";
 import $ from "jquery";
+import _ from 'lodash';
 
 const datatable = {
   /**
