@@ -74,7 +74,7 @@ export default {
   Additional props
   - ```component {Object}```
     
-    Allow column to render vue component.
+    Allow column to render vue component. When you apply this prop, make sure you either add the property ```data``` or ```defaultContent``` to the column to make it works correctly.
 
     Example:
     ```js
