@@ -1,11 +1,12 @@
 {
   "name": "nx-table",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "./dist/nx-table.umd.min.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build:module": "vue-cli-service build --target lib --inline-vue src/components/datatable/VDatatable.vue --formats umd-min"
+    "build:module": "vue-cli-service build --target lib --inline-vue src/components/datatable/VDatatable.vue --formats umd-min",
+    "publish": "npm run build:module && npm publish"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^21.0.0",
