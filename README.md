@@ -74,30 +74,46 @@ export default {
   Additional props
   - ```component {Object}```
     
-    Allow column to render vue component. When you apply this prop, make sure you either add the property ```data``` or ```defaultContent``` to the column to make it works correctly.
+    The component object is a [vue option](https://cn.vuejs.org/v2/api/#Vue-extend) that has 4 properties injected ```["cellData", "rowData", "rowIndex", "colIndex"]```. The detail of these properties can be found in the section [datatable columns.createdCell](https://datatables.net/reference/option/columns.createdCell).
 
-    Example:
-    ```js
-    {
-        this.columns = [
-            { title: "Name", data: "name" },
-            { title: "Salary", data: "salary" },
-            { title: "Age", data: "age", width: "20px" },
-            {
-            title: "TestAge",
-            data: "age",
-            component: RenderComponent,
-            },
-            {
-            title: "Icon",
-            component: TestComponent,
-            data: "age",
-            },
-        ];
+    Noted that the property ```rowData``` is reactive.
+
+    Example of a table component
+    ```html
+    <template>
+      <span>
+        <v-action-button @click="edit" />
+      </span>
+    </template>
+
+    <script>
+    export default {
+      props: ["cellData", "rowData", "rowIndex", "colIndex"],
+      methods: {
+        edit() {
+          this.$router.push({
+            name: "EditFolder",
+            params: { id: e.row.data().id },
+          });
+        },
+      },
     }
+    </script>
     ```
 
-    See [Vue extend options](https://cn.vuejs.org/v2/api/#Vue-extend)
+    To allow a column to render a vue component, you need to add the property ```component```, additionally with either a property ```data``` or ```defaultContent``` to setup correctly.
+
+    Example of table column setup:
+    ```js
+    this.columns = [
+      { title: "Name", data: "name" },
+      {
+        title: "TestAge",
+        data: "age", // or defaultContent: ""
+        component: RenderComponent,
+      },
+    ];
+    ```
 
 - ```serverSide {Boolean}```
 
