@@ -151,7 +151,7 @@ export default {
         {
           title: "Icon",
           component: TestComponent,
-          data: "age",
+          defaultContent: "",
         },
       ];
     },

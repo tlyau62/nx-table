@@ -151,11 +151,18 @@ export default {
 ### Listeners
 - rowReorder
 
-  We add a new property ```reorderedRow``` on the event object that contains the reordered rows.
+  Rows have been reordered by the end user.
+
+  New properties
+  - ```reorderedRow {Array}``` : the reordered rows.
 
   See [Datatable rowReorder event](https://datatables.net/reference/event/row-reorder)
 - order
 
-  Define the event listener for order
+  Define the event listener for order.
+
+  New properties
+  - ```ordCols {Array}``` : the ordered columns
+  - ```ordStr {String}``` : the ordered columns in query string format
 
   See [Datatable order event](https://datatables.net/reference/event/order)

@@ -7,7 +7,10 @@ export default {
   watch: {
     table(table) {
       table.on("order.dt", (e, settings, ordArr) => {
-        this.$emit("order", { e, settings, ordArr });
+        const ordCols = ordArr.map(el => table.column(el.col));
+        const ordStr = ordArr.map(el => `${table.column(el.col).dataSrc()} ${el.dir}`).join(',');
+
+        this.$emit("order", { e, settings, ordArr, ordCols, ordStr });
       });
     }
   }
