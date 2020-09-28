@@ -1,7 +1,11 @@
 <template>
   <div class="example-table">
     <h4>Example 1</h4>
-    <v-datatable :rows="rows" :columns="columns" />
+    <v-datatable
+      :rows="rows"
+      :columns="columns"
+      :stripe-classes="['odd', 'even']"
+    />
   </div>
 </template>
 

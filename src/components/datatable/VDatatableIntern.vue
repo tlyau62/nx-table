@@ -88,6 +88,12 @@ export default {
       type: Boolean,
       default: false,
     },
+
+    // https://datatables.net/reference/option/stripeClasses
+    stripeClasses: {
+      type: Array,
+      default: () => [],
+    },
   },
   data() {
     return {
@@ -117,6 +123,7 @@ export default {
       searching: this.searching,
       info: this.info,
       autoWidth: this.autoWidth,
+      stripeClasses: this.stripeClasses,
     });
   },
   mounted() {

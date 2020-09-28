@@ -140,6 +140,11 @@ export default {
   See [Datatable rowReorder option](https://datatables.net/reference/option/rowReorder)
 
   Related: RowReorder listener
+- ```stripeClasses {Array}```
+
+  Set the zebra stripe class names for the rows in the table. Default value is no stripe class. To enable it just like the official style, set its value to ```['odd', 'even']```.
+
+  See [Datatable stripeClasses option](https://datatables.net/reference/option/stripeClasses)
 
 ### Listeners
 - rowReorder
