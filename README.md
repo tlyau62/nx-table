@@ -9,6 +9,8 @@ Vue verson of datatable
 
 ## Notes
 - https://datatables.net/reference/index
+- https://medium.com/justfrontendthings/how-to-create-and-publish-your-own-vuejs-component-library-on-npm-using-vue-cli-28e60943eed3
+- https://cli.vuejs.org/guide/cli-service.html#vue-cli-service-build
 
 ## Usage
 ```vue
