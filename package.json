@@ -1,12 +1,11 @@
 {
-  "name": "nx-client",
+  "name": "nx-table",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "api": "node ./api",
-    "serve_with_api": "vue-cli-service serve & node ./api"
+    "build:module": "vue-cli-service build --target lib --inline-vue src/components/datatable/VDatatable.vue --formats umd-min"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^21.0.0",
