@@ -1,6 +1,6 @@
 {
   "name": "nx-table",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "main": "./dist/nx-table.umd.min.js",
   "scripts": {
     "serve": "vue-cli-service serve",
