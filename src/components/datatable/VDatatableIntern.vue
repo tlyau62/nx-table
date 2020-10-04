@@ -106,11 +106,8 @@ export default {
       table: null,
     };
   },
-  beforeCreate() {
-    this.config = {};
-  },
   created() {
-    _.merge(this.config, {
+    this.config = {
       ajax: (data, callback) => {
         if (this.rowWatcher) {
           this.populateTable(this.rows, callback);
@@ -130,7 +127,7 @@ export default {
       info: this.info,
       autoWidth: this.autoWidth,
       stripeClasses: this.stripeClasses,
-    });
+    };
 
     datatableService.addPreDraw(this.config, () => this.$cleanComponentStore());
   },
