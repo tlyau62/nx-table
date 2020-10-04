@@ -11,6 +11,7 @@ import datatableService from "./datatable.service";
 import datatableReorderMixin from "./datatable-reorder.mixin";
 import datatableOrderMixin from "./datatable-order.mixin";
 import datatableSelectMixin from "./datatable-select.mixin";
+import datatableComponentMixin from "./datatable-component.mixin";
 
 // https://datatables.net/download/npm
 // core
@@ -35,7 +36,12 @@ import "datatables.net-rowreorder-dt/js/rowReorder.dataTables.min.js";
 
 export default {
   name: "VDatatableIntern",
-  mixins: [datatableOrderMixin, datatableReorderMixin, datatableSelectMixin],
+  mixins: [
+    datatableOrderMixin,
+    datatableReorderMixin,
+    datatableSelectMixin,
+    datatableComponentMixin,
+  ],
   props: {
     rows: {
       type: Array,
@@ -116,7 +122,7 @@ export default {
           );
         }
       },
-      columns: datatableService.processColumns(this.columns),
+      columns: this.columns,
       serverSide: this.serverSide,
       processing: this.processing,
       paging: this.paging,
@@ -125,6 +131,8 @@ export default {
       autoWidth: this.autoWidth,
       stripeClasses: this.stripeClasses,
     });
+
+    datatableService.addPreDraw(this.config, () => this.$cleanComponentStore());
   },
   mounted() {
     if (this.table) {
@@ -137,15 +145,11 @@ export default {
 
     this.table = $(this.$el)
       .find(".internal-table__table")
-      .DataTable(
-        datatableService.addPreDraw(this.config, () =>
-          datatableService.cleanComponentStore()
-        )
-      );
+      .DataTable(this.config);
   },
   beforeDestroy() {
     if (this.table) {
-      datatableService.cleanComponentStore();
+      this.$cleanComponentStore();
       this.table.destroy();
       this.table = null;
       $(this.$el).empty();

@@ -4,11 +4,6 @@ import _ from 'lodash';
 
 const datatable = {
   /**
-   * state
-   */
-  componentStore: [],
-
-  /**
    * Pure
    */
   mergeFunction(obj, option, propertyFunc) {
@@ -45,50 +40,6 @@ const datatable = {
     }
 
     return reorderedRow;
-  },
-
-  /**
-   * Impure
-   */
-  cleanComponentStore() {
-    for (const component of this.componentStore) {
-      component.$destroy();
-    }
-    this.componentStore = [];
-  },
-
-  createComponent(componentStore, componentFactory) {
-    if (!componentFactory) {
-      return () => { };
-    }
-
-    return function (cell, cellData, rowData, rowIndex, colIndex) {
-      const Component = Vue.extend(componentFactory);
-
-      const instance = new Component({
-        propsData: {
-          cellData,
-          rowData,
-          rowIndex,
-          colIndex,
-          datatable: this.DataTable(),
-        },
-      });
-
-      componentStore.push(instance);
-
-      $(cell).empty();
-
-      cell.appendChild(instance.$mount().$el);
-    };
-  },
-
-  processColumns(columns) {
-    return (
-      datatable.addCreatedCell(columns, (col) =>
-        datatable.createComponent(this.componentStore, col.component)
-      ) || []
-    );
   },
 };
 
