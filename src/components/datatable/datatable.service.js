@@ -30,17 +30,7 @@ const datatable = {
 
   addPreDraw(settings, preDrawCallback) {
     return this.mergeFunction(settings, "preDrawCallback", preDrawCallback);
-  },
-
-  calculateReorderedRow(rows, diff) {
-    const reorderedRow = rows.slice();
-
-    for (const d of diff) {
-      reorderedRow[d.newPosition] = rows[d.oldPosition];
-    }
-
-    return reorderedRow;
-  },
+  }
 };
 
 export default datatable;
