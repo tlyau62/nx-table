@@ -6,7 +6,7 @@ export default {
       default: false,
     },
   },
-  created() {
+  beforeMount() {
     this.config.select = this.select;
   },
 };
