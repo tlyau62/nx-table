@@ -30,10 +30,19 @@ const helper = {
     }
 
     return function (cell, cellData, rowData, rowIndex, colIndex) {
-      const Component = Vue.extend(componentFactory);
+      let Component, propsData;
+
+      if (_.isArray(componentFactory)) {
+        Component = Vue.extend(componentFactory[0]);
+        propsData = componentFactory[1];
+      } else {
+        Component = Vue.extend(componentFactory);
+        propsData = {};
+      }
 
       const instance = new Component({
         propsData: {
+          ...propsData,
           cellData,
           rowData,
           rowIndex,

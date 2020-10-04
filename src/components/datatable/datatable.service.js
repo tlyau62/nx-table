@@ -7,7 +7,7 @@ const datatable = {
    * Pure
    */
   mergeFunction(obj, option, propertyFunc) {
-    const cloneObj = _.cloneDeep(obj);
+    const cloneObj = _.cloneDeepWith(obj, datatable.cloneDeepExceptObservable);
     let cb = propertyFunc;
 
     if (cloneObj[option]) {
@@ -23,13 +23,23 @@ const datatable = {
   },
 
   addCreatedCell(columns, createdCellCallback) {
-    return _.cloneDeep(columns).map((col) =>
+    return _.cloneDeepWith(columns, datatable.cloneDeepExceptObservable).map((col) =>
       this.mergeFunction(col, "createdCell", createdCellCallback(col))
     );
   },
 
   addPreDraw(settings, preDrawCallback) {
     return this.mergeFunction(settings, "preDrawCallback", preDrawCallback);
+  },
+
+  isObservable(obj) {
+    return obj['__ob__'] !== undefined;
+  },
+
+  cloneDeepExceptObservable(obj) {
+    if (datatable.isObservable(obj)) {
+      return obj;
+    }
   }
 };
 
