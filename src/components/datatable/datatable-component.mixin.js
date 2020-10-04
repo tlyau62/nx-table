@@ -30,11 +30,27 @@ const helper = {
     }
 
     return function (cell, cellData, rowData, rowIndex, colIndex) {
-      let Component, propsData;
+      let Component, propsData, dummy;
 
       if (_.isArray(componentFactory)) {
         Component = Vue.extend(componentFactory[0]);
-        propsData = componentFactory[1];
+        const obj = componentFactory[1]();
+        const watchers = {}
+
+        for (const [key, value] of Object.entries(obj)) {
+          watchers[key] = function () {
+            debugger;
+            return componentFactory[1]()[key];
+          };
+        }
+
+        dummy = new Vue({
+          computed: {
+            ...watchers
+          },
+        });
+
+        propsData = dummy;
       } else {
         Component = Vue.extend(componentFactory);
         propsData = {};
@@ -42,7 +58,7 @@ const helper = {
 
       const instance = new Component({
         propsData: {
-          ...propsData,
+          propsData,
           cellData,
           rowData,
           rowIndex,

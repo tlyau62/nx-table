@@ -9,9 +9,10 @@
 <script>
 import VDatatable from "@/components/datatable/VDatatable";
 import _ from "lodash";
+import Vue from "vue";
 
 const ContextMenuComponent = {
-  props: ["cellData", "rowData", "rowIndex", "colIndex", "numberHolder"],
+  props: ["cellData", "rowData", "rowIndex", "colIndex", "propsData"],
   // eslint-disable-next-line no-unused-vars
   render(h) {
     return (
@@ -19,10 +20,9 @@ const ContextMenuComponent = {
         <b-dropdown-item>First Action</b-dropdown-item>
         <b-dropdown-item>Second Action</b-dropdown-item>
         <b-dropdown-item>Third Action</b-dropdown-item>
-        <b-dropdown-item>Number {this.numberHolder.number}</b-dropdown-item>
+        <b-dropdown-item>Number {this.propsData.number}</b-dropdown-item>
         <b-dropdown-divider></b-dropdown-divider>
         <b-dropdown-item active>Active action</b-dropdown-item>
-        <b-dropdown-item disabled>Disabled action</b-dropdown-item>
       </b-dropdown>
     );
   },
@@ -40,6 +40,7 @@ export default {
       numberHolder: {
         number: 10,
       },
+      number: 10,
     };
   },
   created() {
@@ -61,14 +62,14 @@ export default {
       { title: "Age", data: "age", width: "20px" },
       {
         title: "Action",
-        component: [ContextMenuComponent, { numberHolder: this.numberHolder }],
+        component: [ContextMenuComponent, () => ({ number: this.number })],
         defaultContent: "",
       },
     ];
   },
   methods: {
     incNumber() {
-      this.numberHolder.number++;
+      this.number++;
     },
   },
 };
