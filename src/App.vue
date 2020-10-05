@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="example">
-      <div class="example__section">
+      <!-- <div class="example__section">
         <ExampleTable />
       </div>
 
@@ -11,6 +11,10 @@
 
       <div class="example__section">
         <ExampleTable3 />
+      </div> -->
+
+      <div class="example__section">
+        <ExampleTable4 />
       </div>
     </div>
   </div>
@@ -20,6 +24,7 @@
 import ExampleTable from "@/components/example/ExampleTable";
 import ExampleTable2 from "@/components/example/ExampleTable2";
 import ExampleTable3 from "@/components/example/ExampleTable3";
+import ExampleTable4 from "@/components/example/ExampleTable4";
 
 export default {
   name: "App",
@@ -27,6 +32,7 @@ export default {
     ExampleTable,
     ExampleTable2,
     ExampleTable3,
+    ExampleTable4,
   },
 };
 </script>

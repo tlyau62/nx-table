@@ -6,7 +6,8 @@ export default {
       default: false,
     },
   },
-  beforeMount() {
+  mounted() {
+    debugger;
     this.config.select = this.select;
   },
 };

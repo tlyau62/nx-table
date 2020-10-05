@@ -9,7 +9,8 @@ export default {
       default: false,
     },
   },
-  beforeMount() {
+  mounted() {
+    debugger;
     this.config.rowReorder = this.rowReorder;
   },
   watch: {

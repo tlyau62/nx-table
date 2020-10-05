@@ -40,7 +40,7 @@ export default {
     datatableOrderMixin,
     datatableReorderMixin,
     datatableSelectMixin,
-    datatableComponentMixin,
+    // datatableComponentMixin,
   ],
   props: {
     rows: {
@@ -119,7 +119,6 @@ export default {
           );
         }
       },
-      columns: this.columns,
       serverSide: this.serverSide,
       processing: this.processing,
       paging: this.paging,
@@ -128,10 +127,10 @@ export default {
       autoWidth: this.autoWidth,
       stripeClasses: this.stripeClasses,
     };
-
-    datatableService.addPreDraw(this.config, () => this.$cleanComponentStore());
   },
   mounted() {
+    debugger;
+
     if (this.table) {
       throw new Error("Table already exists");
     }
@@ -140,9 +139,17 @@ export default {
       return;
     }
 
+    this.config.columns = this.columns;
+
+    // datatableService.addPreDraw(this.config, () => this.$cleanComponentStore());
+
     this.table = $(this.$el)
       .find(".internal-table__table")
       .DataTable(this.config);
+
+    this.$watch("columns", () => {
+      this.$emit("refresh");
+    });
   },
   beforeDestroy() {
     if (this.table) {
@@ -151,11 +158,6 @@ export default {
       this.table = null;
       $(this.$el).empty();
     }
-  },
-  watch: {
-    columns() {
-      this.$emit("refresh");
-    },
   },
   methods: {
     populateTable(rows, callback) {

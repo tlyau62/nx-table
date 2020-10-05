@@ -6,7 +6,9 @@
       @refresh="refresh"
       v-bind="$attrs"
       v-on="$listeners"
+      :columns="columns"
     />
+    <slot></slot>
   </div>
 </template>
 
@@ -21,7 +23,19 @@ export default {
   data() {
     return {
       id: 0,
+      columns: [],
     };
+  },
+  created() {
+    debugger;
+    this.$on("column-created", (evt) => {
+      debugger;
+      this.columns.push(evt);
+    });
+  },
+  mounted() {
+    debugger;
+    const a = this;
   },
   methods: {
     refresh() {
