@@ -2,7 +2,6 @@
   <div class="example-table">
     <h4>Example 3</h4>
     <b-button @click="incNumber">Inc number</b-button>
-    {{ number }}
     <v-datatable :rows="rows" :columns="columns" />
   </div>
 </template>

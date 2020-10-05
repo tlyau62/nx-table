@@ -2,6 +2,7 @@ import datatableService from './datatable.service';
 import Vue from "vue";
 import $ from "jquery";
 import _ from 'lodash';
+import VDatatableComponent from './VDatatableComponent';
 
 export default {
   created() {
@@ -31,20 +32,19 @@ const helper = {
 
     return function (cell, cellData, rowData, rowIndex, colIndex) {
       let Component, propsData;
+      const extraPropData = {
+        cellData, rowData, rowIndex, colIndex
+      };
 
       if (_.isArray(componentFactory)) {
-        Component = Vue.extend(componentFactory[0]);
-        propsData = helper.createWatchers(componentFactory[1]);
+        Component = componentFactory[0];
+        propsData = componentFactory[1];
       } else {
-        Component = Vue.extend(componentFactory);
-        propsData = {};
+        Component = componentFactory;
+        propsData = () => ({});
       }
 
-      _.assign(propsData, {
-        cellData, rowData, rowIndex, colIndex
-      });
-
-      const instance = new Component({ propsData });
+      const instance = helper.createComponentWrapper(Component, propsData, extraPropData)
 
       componentStore.push(instance);
 
@@ -62,30 +62,19 @@ const helper = {
     );
   },
 
-  createWatchers(watcherFactory) {
-    const watchers = {}
-
-    for (const [key, value] of Object.entries(watcherFactory())) {
-      watchers[key] = function () {
-        return watcherFactory()[key];
-      };
-    }
-
-    const instance = new Vue({
-      computed: {
-        ...watchers
-      },
-    });
-
-    return new Proxy(instance, {
-      get(target, name) {
-        debugger;
-        return target[name];
-      },
-      set(target, name, value) {
-        target[name] = value
+  createComponentWrapper(Component, propsFactory, extraPropData) {
+    const V = Vue.extend(VDatatableComponent);
+    const v = new V({
+      propsData: {
+        tableComponent: Vue.extend(Component),
+        propsFactory: propsFactory,
+        extraPropData
       }
     });
+
+    v.$mount();
+
+    return v;
   }
 };
 
