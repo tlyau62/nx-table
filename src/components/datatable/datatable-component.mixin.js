@@ -30,42 +30,21 @@ const helper = {
     }
 
     return function (cell, cellData, rowData, rowIndex, colIndex) {
-      let Component, propsData, dummy;
+      let Component, propsData;
 
       if (_.isArray(componentFactory)) {
         Component = Vue.extend(componentFactory[0]);
-        const obj = componentFactory[1]();
-        const watchers = {}
-
-        for (const [key, value] of Object.entries(obj)) {
-          watchers[key] = function () {
-            debugger;
-            return componentFactory[1]()[key];
-          };
-        }
-
-        dummy = new Vue({
-          computed: {
-            ...watchers
-          },
-        });
-
-        propsData = dummy;
+        propsData = helper.createWatchers(componentFactory[1]);
       } else {
         Component = Vue.extend(componentFactory);
         propsData = {};
       }
 
-      const instance = new Component({
-        propsData: {
-          propsData,
-          cellData,
-          rowData,
-          rowIndex,
-          colIndex,
-          datatable: this.DataTable(),
-        },
+      _.assign(propsData, {
+        cellData, rowData, rowIndex, colIndex
       });
+
+      const instance = new Component({ propsData });
 
       componentStore.push(instance);
 
@@ -82,5 +61,31 @@ const helper = {
       ) || []
     );
   },
+
+  createWatchers(watcherFactory) {
+    const watchers = {}
+
+    for (const [key, value] of Object.entries(watcherFactory())) {
+      watchers[key] = function () {
+        return watcherFactory()[key];
+      };
+    }
+
+    const instance = new Vue({
+      computed: {
+        ...watchers
+      },
+    });
+
+    return new Proxy(instance, {
+      get(target, name) {
+        debugger;
+        return target[name];
+      },
+      set(target, name, value) {
+        target[name] = value
+      }
+    });
+  }
 };
 

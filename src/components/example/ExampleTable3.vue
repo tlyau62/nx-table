@@ -2,6 +2,7 @@
   <div class="example-table">
     <h4>Example 3</h4>
     <b-button @click="incNumber">Inc number</b-button>
+    {{ number }}
     <v-datatable :rows="rows" :columns="columns" />
   </div>
 </template>
@@ -12,7 +13,7 @@ import _ from "lodash";
 import Vue from "vue";
 
 const ContextMenuComponent = {
-  props: ["cellData", "rowData", "rowIndex", "colIndex", "propsData"],
+  props: ["cellData", "rowData", "rowIndex", "colIndex", "number"],
   // eslint-disable-next-line no-unused-vars
   render(h) {
     return (
@@ -20,7 +21,7 @@ const ContextMenuComponent = {
         <b-dropdown-item>First Action</b-dropdown-item>
         <b-dropdown-item>Second Action</b-dropdown-item>
         <b-dropdown-item>Third Action</b-dropdown-item>
-        <b-dropdown-item>Number {this.propsData.number}</b-dropdown-item>
+        <b-dropdown-item>Number {this.number}</b-dropdown-item>
         <b-dropdown-divider></b-dropdown-divider>
         <b-dropdown-item active>Active action</b-dropdown-item>
       </b-dropdown>
