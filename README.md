@@ -74,7 +74,7 @@ export default {
   See [Datatable columns option](https://datatables.net/reference/option/columns)
 
   Additional props
-  - ```component {Object}```
+  - ```component {Object, Array}```
     
     The component object is a [vue option](https://cn.vuejs.org/v2/api/#Vue-extend) that has 4 properties injected ```["cellData", "rowData", "rowIndex", "colIndex"]```. The detail of these properties can be found in the section [datatable columns.createdCell](https://datatables.net/reference/option/columns.createdCell).
 
@@ -113,6 +113,18 @@ export default {
         title: "TestAge",
         data: "age", // or defaultContent: ""
         component: RenderComponent,
+      },
+    ];
+    ```
+
+    To give a set of properties to the vue component, it is possible to pass in an array ```[VueOption, PropsFunction]```, where ```PropsFunction``` is a function that returns a object of properties.
+
+    ```js
+    this.columns = [
+      {
+        title: "Action",
+        component: [ContextMenuComponent, () => ({ number: this.number })],
+        defaultContent: "",
       },
     ];
     ```
