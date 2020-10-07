@@ -9,7 +9,6 @@ export default {
   name: "VDatatableColumn",
   props: ["title", "data", "width"],
   mounted() {
-    debugger
     this.$parent.$emit("column-created", {
       title: this.title,
       data: this.data,

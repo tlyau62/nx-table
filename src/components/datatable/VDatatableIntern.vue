@@ -124,8 +124,6 @@ export default {
     };
   },
   mounted() {
-    debugger;
-
     if (this.table) {
       throw new Error("Table already exists");
     }

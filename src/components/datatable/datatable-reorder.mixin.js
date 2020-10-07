@@ -10,7 +10,6 @@ export default {
     },
   },
   mounted() {
-    debugger;
     this.config.rowReorder = this.rowReorder;
   },
   watch: {

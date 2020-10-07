@@ -7,7 +7,6 @@ export default {
     },
   },
   mounted() {
-    debugger;
     this.config.select = this.select;
   },
 };

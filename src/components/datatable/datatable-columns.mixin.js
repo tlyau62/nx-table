@@ -47,8 +47,6 @@ const helper = {
         datatable: this.DataTable(),
       };
 
-      debugger;
-
       const instance = new Component({
         propsData: {
           vnodes: scopedSlots.default(scope)
