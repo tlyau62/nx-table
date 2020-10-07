@@ -4,11 +4,9 @@
     <v-datatable :rows="rows" :stripe-classes="['odd', 'even']">
       <v-datatable-column title="Name" data="name"></v-datatable-column>
       <v-datatable-column title="Salary" data="salary"></v-datatable-column>
-      <v-datatable-column
-        title="Age"
-        data="age"
-        width="20px"
-      ></v-datatable-column>
+      <v-datatable-column title="Age" data="age" width="20px">
+        <button @click="log">Log</button>
+      </v-datatable-column>
     </v-datatable>
   </div>
 </template>
@@ -42,6 +40,11 @@ export default {
         age: 20,
       },
     ];
+  },
+  methods: {
+    log() {
+      console.log("test");
+    },
   },
 };
 </script>

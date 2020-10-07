@@ -2,13 +2,20 @@ import datatableService from './datatable.service';
 import Vue from "vue";
 import $ from "jquery";
 import _ from 'lodash';
+import VDatatableCell from './VDatatableCell';
 
 export default {
+  props: {
+    columns: {
+      type: Array,
+      default: () => [],
+    },
+  },
   created() {
     this.componentStore = [];
   },
-  beforeMount() {
-    this.config.columns = helper.processColumns(this.componentStore, this.config.columns);
+  mounted() {
+    this.config.columns = helper.processColumns(this.componentStore, this.columns);
   },
   methods: {
     $cleanComponentStore() {
@@ -24,30 +31,27 @@ const helper = {
   /**
    * Impure
    */
-  createComponent(componentStore, componentFactory) {
-    if (!componentFactory) {
-      return () => { };
+  createComponent(componentStore, scopedSlots) {
+    if (!scopedSlots || !scopedSlots.default) {
+      return function () { };
     }
 
     return function (cell, cellData, rowData, rowIndex, colIndex) {
-      let Component, propsData;
+      const Component = Vue.extend(VDatatableCell);
+      const scope = {
+        cell,
+        cellData,
+        rowData,
+        rowIndex,
+        colIndex,
+        datatable: this.DataTable(),
+      };
 
-      if (_.isArray(componentFactory)) {
-        Component = Vue.extend(componentFactory[0]);
-        propsData = componentFactory[1];
-      } else {
-        Component = Vue.extend(componentFactory);
-        propsData = {};
-      }
+      debugger;
 
       const instance = new Component({
         propsData: {
-          ...propsData,
-          cellData,
-          rowData,
-          rowIndex,
-          colIndex,
-          datatable: this.DataTable(),
+          vnodes: scopedSlots.default(scope)
         },
       });
 
@@ -62,7 +66,7 @@ const helper = {
   processColumns(componentStore, columns) {
     return (
       datatableService.addCreatedCell(columns, (col) =>
-        helper.createComponent(componentStore, col.component)
+        helper.createComponent(componentStore, col.scopedSlots)
       ) || []
     );
   },

@@ -11,7 +11,7 @@ import datatableService from "./datatable.service";
 import datatableReorderMixin from "./datatable-reorder.mixin";
 import datatableOrderMixin from "./datatable-order.mixin";
 import datatableSelectMixin from "./datatable-select.mixin";
-import datatableComponentMixin from "./datatable-component.mixin";
+import datatableColumnsMixin from "./datatable-columns.mixin";
 
 // https://datatables.net/download/npm
 // core
@@ -40,15 +40,10 @@ export default {
     datatableOrderMixin,
     datatableReorderMixin,
     datatableSelectMixin,
-    // datatableComponentMixin,
+    datatableColumnsMixin,
   ],
   props: {
     rows: {
-      type: Array,
-      default: () => [],
-    },
-
-    columns: {
       type: Array,
       default: () => [],
     },
@@ -135,21 +130,19 @@ export default {
       throw new Error("Table already exists");
     }
 
+    this.$watch("columns", () => {
+      this.$emit("refresh");
+    });
+
     if (this.columns.length === 0) {
       return;
     }
 
-    this.config.columns = this.columns;
-
-    // datatableService.addPreDraw(this.config, () => this.$cleanComponentStore());
+    datatableService.addPreDraw(this.config, () => this.$cleanComponentStore());
 
     this.table = $(this.$el)
       .find(".internal-table__table")
       .DataTable(this.config);
-
-    this.$watch("columns", () => {
-      this.$emit("refresh");
-    });
   },
   beforeDestroy() {
     if (this.table) {

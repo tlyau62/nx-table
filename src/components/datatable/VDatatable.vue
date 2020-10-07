@@ -8,7 +8,7 @@
       v-on="$listeners"
       :columns="columns"
     />
-    <slot></slot>
+    <div style="display: none"><slot></slot></div>
   </div>
 </template>
 
@@ -27,15 +27,9 @@ export default {
     };
   },
   created() {
-    debugger;
     this.$on("column-created", (evt) => {
-      debugger;
       this.columns.push(evt);
     });
-  },
-  mounted() {
-    debugger;
-    const a = this;
   },
   methods: {
     refresh() {

@@ -1,17 +1,20 @@
 <template>
-  <div class="datatable-column"></div>
+  <div class="datatable-column">
+    <slot></slot>
+  </div>
 </template>
 
 <script>
 export default {
   name: "VDatatableColumn",
   props: ["title", "data", "width"],
-  created() {
-    debugger;
+  mounted() {
+    debugger
     this.$parent.$emit("column-created", {
       title: this.title,
       data: this.data,
       width: this.width || "",
+      scopedSlots: this.$scopedSlots,
     });
   },
 };
