@@ -14,6 +14,10 @@
       </div> -->
 
       <div class="example__section">
+        <ExampleTable />
+      </div>
+
+      <div class="example__section">
         <ExampleTable4 />
       </div>
     </div>
