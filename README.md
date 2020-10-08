@@ -17,18 +17,23 @@ Vue verson of datatable
 <template>
   <div class="example-table">
     <h4>Example 1</h4>
-    <v-datatable :rows="rows" :columns="columns" />
+    <v-datatable :rows="rows" :stripe-classes="['odd', 'even']">
+      <v-datatable-column title="Name" data="name" />
+      <v-datatable-column title="Salary" data="salary" />
+      <v-datatable-column title="Age" data="age" width="20px" />
+    </v-datatable>
   </div>
 </template>
 
 <script>
 import VDatatable from "@/components/datatable/VDatatable";
+import VDatatableColumn from "@/components/datatable/VDatatableColumn";
 import _ from "lodash";
-
 export default {
   name: "ExampleTable",
   components: {
     VDatatable,
+    VDatatableColumn,
   },
   data() {
     return {
@@ -57,77 +62,18 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+</style>
 ```
 
-## VDatatable
+## nx-table
 ### Props
 - ```rows {Array}```
 
   Define the rows data to show.
 
   See [Datatable data option](https://datatables.net/reference/option/data)
-
-- ```columns {Array}```
-
-  Define the columns to show.
-
-  See [Datatable columns option](https://datatables.net/reference/option/columns)
-
-  Additional props
-  - ```component {Object, Array}```
-    
-    The component object is a [vue option](https://cn.vuejs.org/v2/api/#Vue-extend) that has 4 properties injected ```["cellData", "rowData", "rowIndex", "colIndex"]```. The detail of these properties can be found in the section [datatable columns.createdCell](https://datatables.net/reference/option/columns.createdCell).
-
-    Noted that the property ```rowData``` is reactive.
-
-    Example of a table component
-    ```html
-    <template>
-      <span>
-        <v-action-button @click="edit" />
-      </span>
-    </template>
-
-    <script>
-    export default {
-      props: ["cellData", "rowData", "rowIndex", "colIndex"],
-      methods: {
-        edit() {
-          this.$router.push({
-            name: "EditFolder",
-            params: { id: e.row.data().id },
-          });
-        },
-      },
-    }
-    </script>
-    ```
-
-    To allow a column to render a vue component, you need to add the property ```component```, additionally with either a property ```data``` or ```defaultContent``` to setup correctly.
-
-    Example of table column setup:
-    ```js
-    this.columns = [
-      { title: "Name", data: "name" },
-      {
-        title: "TestAge",
-        data: "age", // or defaultContent: ""
-        component: RenderComponent,
-      },
-    ];
-    ```
-
-    To give a set of properties to the vue component, it is possible to pass in an array ```[VueOption, PropsFunction]```, where ```PropsFunction``` is a function that returns a object of properties.
-
-    ```js
-    this.columns = [
-      {
-        title: "Action",
-        component: [ContextMenuComponent, () => ({ number: this.number })],
-        defaultContent: "",
-      },
-    ];
-    ```
 
 - ```serverSide {Boolean}```
 
@@ -178,3 +124,62 @@ export default {
   - ```ordStr {String}``` : the ordered columns in query string format
 
   See [Datatable order event](https://datatables.net/reference/event/order)
+
+
+## nx-table-column
+
+Define the table column. Should be the direct child of the nx-table component.
+
+Noted that not all datatable props are supported.
+
+See [Datatable column](https://datatables.net/reference/option/columns)
+
+### Props
+- ```title {String}```
+
+  Define the column's title.
+
+  See [Datatable column.name](https://datatables.net/reference/option/columns.title)
+
+- ```data {String}```
+
+  Define the column's data. Make sure either ```data``` or ```defaultContent``` is defined.
+
+  See [Datatable column.data](https://datatables.net/reference/option/columns.title)
+
+- ```width {String}```
+
+  Define the column's width. It takes any CSS value.
+
+  See [Datatable columns.width](https://datatables.net/reference/option/columns.width)
+
+- ```defaultContent {string}```
+
+  Define the default content of the cell if data is undefined. Make sure either ```data``` or ```defaultContent``` is defined.
+
+  See [Datatable columns.defaultContent](https://datatables.net/reference/option/columns.defaultContent)
+
+### Scoped slots (default)
+- ```cellData {String}```
+
+  The cell data.
+
+  See [datatable columns.createdCell](https://datatables.net/reference/option/columns.createdCell)
+
+- ```rowData {Object}```
+
+  Reactive row data. Useful in display custom data.
+
+  See [datatable columns.createdCell](https://datatables.net/reference/option/columns.createdCell)
+
+- ```rowIndex {Number}```
+
+  The row number.
+
+  See [datatable columns.createdCell](https://datatables.net/reference/option/columns.createdCell)
+
+- ```colIndex {Number}```
+
+  The column number.
+
+  See [datatable columns.createdCell](https://datatables.net/reference/option/columns.createdCell)
