@@ -1,4 +1,3 @@
-import datatableService from "./datatable.service";
 import _ from 'lodash';
 
 export default {
