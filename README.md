@@ -153,11 +153,24 @@ See [Datatable column](https://datatables.net/reference/option/columns)
 
   See [Datatable columns.width](https://datatables.net/reference/option/columns.width)
 
-- ```defaultContent {string}```
+- ```defaultContent {String}```
 
   Define the default content of the cell if data is undefined. Make sure either ```data``` or ```defaultContent``` is defined.
 
   See [Datatable columns.defaultContent](https://datatables.net/reference/option/columns.defaultContent)
+
+
+- ```orderable {Boolean}```
+
+  Indicate whether the column is orderable or not.
+
+  See [Datatable columns.orderable](https://datatables.net/reference/option/columns.orderable)
+
+- ```className {String}```
+
+  Indicate the css class value
+
+  See [Datatable columns.className](https://datatables.net/reference/option/columns.className)
 
 ### Scoped slots (default)
 - ```cellData {String}```

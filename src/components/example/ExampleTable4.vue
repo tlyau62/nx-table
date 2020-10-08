@@ -9,7 +9,7 @@
         data="age"
         width="20px"
         :orderable="false"
-        cellclass="text-center"
+        className="text-center"
       >
         <button @click="log">Log</button>
       </v-datatable-column>
