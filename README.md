@@ -38,7 +38,6 @@ export default {
   data() {
     return {
       rows: [],
-      columns: [],
     };
   },
   created() {
@@ -53,11 +52,6 @@ export default {
         salary: 2000,
         age: 20,
       },
-    ];
-    this.columns = [
-      { title: "Name", data: "name" },
-      { title: "Salary", data: "salary" },
-      { title: "Age", data: "age", width: "20px" },
     ];
   },
 };
