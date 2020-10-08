@@ -6,7 +6,9 @@
       @refresh="refresh"
       v-bind="$attrs"
       v-on="$listeners"
-    />
+    >
+      <slot></slot
+    ></v-datatable-intern>
   </div>
 </template>
 

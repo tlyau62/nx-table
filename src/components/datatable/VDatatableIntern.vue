@@ -1,6 +1,7 @@
 <template>
   <div class="internal-table">
     <table class="internal-table__table display" v-bind="$attrs"></table>
+    <slot></slot>
   </div>
 </template>
 
@@ -11,7 +12,7 @@ import datatableService from "./datatable.service";
 import datatableReorderMixin from "./datatable-reorder.mixin";
 import datatableOrderMixin from "./datatable-order.mixin";
 import datatableSelectMixin from "./datatable-select.mixin";
-import datatableComponentMixin from "./datatable-component.mixin";
+import datatableColumnsMixin from "./datatable-columns.mixin";
 
 // https://datatables.net/download/npm
 // core
@@ -40,15 +41,10 @@ export default {
     datatableOrderMixin,
     datatableReorderMixin,
     datatableSelectMixin,
-    datatableComponentMixin,
+    datatableColumnsMixin,
   ],
   props: {
     rows: {
-      type: Array,
-      default: () => [],
-    },
-
-    columns: {
       type: Array,
       default: () => [],
     },
@@ -119,7 +115,6 @@ export default {
           );
         }
       },
-      columns: this.columns,
       serverSide: this.serverSide,
       processing: this.processing,
       paging: this.paging,
@@ -136,7 +131,7 @@ export default {
       throw new Error("Table already exists");
     }
 
-    if (this.columns.length === 0) {
+    if (this.config.columns.length === 0) {
       return;
     }
 
@@ -147,15 +142,10 @@ export default {
   beforeDestroy() {
     if (this.table) {
       this.$cleanComponentStore();
-      this.table.destroy();
-      this.table = null;
+      // this.table.destroy();
+      // this.table = null;
       $(this.$el).empty();
     }
-  },
-  watch: {
-    columns() {
-      this.$emit("refresh");
-    },
   },
   methods: {
     populateTable(rows, callback) {

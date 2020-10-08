@@ -33,35 +33,54 @@
       <h4>Table</h4>
       <v-datatable
         :rows="rows"
-        :columns="columns"
         :server-side="true"
         :processing="true"
         :select="{ style: 'os', blurable: true }"
         :row-reorder="true"
         @row-reordered="reorderRow"
         @order="order"
-      />
+      >
+        <v-datatable-column
+          v-for="(col, idx) of columns"
+          :key="col.id"
+          :title="col.title"
+          :data="col.data"
+          :width="col.width"
+          :defaultContent="col.defaultContent"
+        >
+          <template #default="scope" v-if="col.vue">
+            <component
+              :is="col.vue"
+              :name="scope.rowData.name"
+              :age="scope.rowData.age"
+              :row-data="scope.rowData"
+            />
+          </template>
+        </v-datatable-column>
+      </v-datatable>
     </div>
   </div>
 </template>
 
 <script>
 import VDatatable from "@/components/datatable/VDatatable";
+import VDatatableColumn from "@/components/datatable/VDatatableColumn";
 import _ from "lodash";
-
+import datatableOrderMixin from "../datatable/datatable-order.mixin";
 const RenderComponent = {
-  props: ["cellData", "rowData", "rowIndex", "colIndex"],
+  props: ["age", "name"],
   // eslint-disable-next-line no-unused-vars
   render(h) {
-    return this._v(this.rowData.age); // https://stackoverflow.com/questions/42414627/create-text-node-with-custom-render-function-in-vue-js
+    // https://stackoverflow.com/questions/42414627/create-text-node-with-custom-render-function-in-vue-js
+    return this._v(this.name + " " + this.age);
   },
 };
-
 const TestComponent = {
-  props: ["cellData", "rowData", "rowIndex", "colIndex"],
+  props: ["rowData"],
   // eslint-disable-next-line no-unused-vars
   render(h) {
-    return <button onClick={() => this.inc()}>test</button>; // https://stackoverflow.com/questions/42414627/create-text-node-with-custom-render-function-in-vue-js
+    // https://stackoverflow.com/questions/42414627/create-text-node-with-custom-render-function-in-vue-js
+    return <button onClick={() => this.inc()}>test</button>;
   },
   methods: {
     inc() {
@@ -69,16 +88,17 @@ const TestComponent = {
     },
   },
 };
-
 export default {
   name: "ExampleTable2",
   components: {
     VDatatable,
+    VDatatableColumn,
   },
   data() {
     return {
       rows: [],
       columns: [],
+      id: 0,
     };
   },
   methods: {
@@ -121,37 +141,39 @@ export default {
         {
           name: "Peter",
           salary: 2000,
-          age: 20,
+          age: 10,
         },
       ];
     },
     setColumnsA() {
       this.columns = [
-        { title: "Name", data: "name" },
-        { title: "Salary", data: "salary" },
+        { title: "Name", data: "name", id: this.id++ },
+        { title: "Salary", data: "salary", id: this.id++ },
       ];
     },
     setColumnsB() {
       this.columns = [
-        { title: "Name", data: "name" },
-        { title: "Salary", data: "salary" },
-        { title: "Age", data: "age" },
+        { title: "Name", data: "name", id: this.id++ },
+        { title: "Salary", data: "salary", id: this.id++ },
+        { title: "Age", data: "age", id: this.id++ },
       ];
     },
     setColumnsC() {
       this.columns = [
-        { title: "Name", data: "name" },
-        { title: "Salary", data: "salary" },
-        { title: "Age", data: "age", width: "20px" },
+        { title: "Name", data: "name", id: this.id++ },
+        { title: "Salary", data: "salary", id: this.id++ },
+        { title: "Age", data: "age", width: "20px", id: this.id++ },
         {
           title: "TestAge",
           data: "age",
-          component: RenderComponent,
+          vue: RenderComponent,
+          id: this.id++,
         },
         {
           title: "Icon",
-          component: TestComponent,
           defaultContent: "",
+          vue: TestComponent,
+          id: this.id++,
         },
       ];
     },
@@ -159,13 +181,11 @@ export default {
       if (evt.ordArr.length === 0) {
         return;
       }
-
       const order = evt.ordArr[0];
       const col = this.columns[order.col];
       const rows = this.rows
         .slice()
         .sort((a, b) => (_.get(a, col.data) > _.get(b, col.data) ? 1 : -1));
-
       this.rows = order.dir === "asc" ? rows : rows.reverse();
     },
     reorderRow(evt) {
