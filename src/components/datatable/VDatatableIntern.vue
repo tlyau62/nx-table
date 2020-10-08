@@ -1,7 +1,9 @@
 <template>
   <div class="internal-table">
     <table class="internal-table__table display" v-bind="$attrs"></table>
-    <slot></slot>
+    <div class="display: none;">
+      <slot></slot>
+    </div>
   </div>
 </template>
 

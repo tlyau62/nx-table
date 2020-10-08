@@ -5,12 +5,6 @@ import _ from 'lodash';
 import VDatatableCell from './VDatatableCell';
 
 export default {
-  props: {
-    columns: {
-      type: Array,
-      default: () => [],
-    },
-  },
   data() {
     return {
       init: false
