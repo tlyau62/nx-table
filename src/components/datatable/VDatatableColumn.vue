@@ -5,7 +5,7 @@
 <script>
 export default {
   name: "VDatatableColumn",
-  props: ["title", "data", "width", "defaultContent"],
+  props: ["title", "data", "width", "defaultContent", "orderable", "cellclass"],
   beforeMount() {
     this.$parent.$emit("column-created", {
       title: this.title,
@@ -13,6 +13,8 @@ export default {
       width: this.width || "",
       context: this,
       defaultContent: this.defaultContent,
+      orderable: this.orderable,
+      class: this.cellclass,
     });
   },
 };
