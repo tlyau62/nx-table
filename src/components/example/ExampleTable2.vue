@@ -48,10 +48,15 @@
           :width="col.width"
           :defaultContent="col.defaultContent"
         >
-          <component :is="col.component" />
+          <template #default="scope" v-if="col.vue">
+            <component
+              :is="col.vue"
+              :name="scope.rowData.name"
+              :age="scope.rowData.age"
+              :row-data="scope.rowData"
+            />
+          </template>
         </v-datatable-column>
-
-        <v-datatable-column title="Name" data="name" />
       </v-datatable>
     </div>
   </div>
@@ -63,18 +68,20 @@ import VDatatableColumn from "@/components/datatable/VDatatableColumn";
 import _ from "lodash";
 
 const RenderComponent = {
-  props: ["cellData", "rowData", "rowIndex", "colIndex"],
+  props: ["age", "name"],
   // eslint-disable-next-line no-unused-vars
   render(h) {
-    return this._v(this.rowData.age); // https://stackoverflow.com/questions/42414627/create-text-node-with-custom-render-function-in-vue-js
+    // https://stackoverflow.com/questions/42414627/create-text-node-with-custom-render-function-in-vue-js
+    return this._v(this.name + " " + this.age);
   },
 };
 
 const TestComponent = {
-  props: ["cellData", "rowData", "rowIndex", "colIndex"],
+  props: ["rowData"],
   // eslint-disable-next-line no-unused-vars
   render(h) {
-    return <button onClick={() => this.inc()}>test</button>; // https://stackoverflow.com/questions/42414627/create-text-node-with-custom-render-function-in-vue-js
+    // https://stackoverflow.com/questions/42414627/create-text-node-with-custom-render-function-in-vue-js
+    return <button onClick={() => this.inc()}>test</button>;
   },
   methods: {
     inc() {
@@ -135,7 +142,7 @@ export default {
         {
           name: "Peter",
           salary: 2000,
-          age: 20,
+          age: 10,
         },
       ];
     },
@@ -160,12 +167,12 @@ export default {
         {
           title: "TestAge",
           data: "age",
-          component: RenderComponent,
+          vue: RenderComponent,
         },
         {
           title: "Icon",
-          component: TestComponent,
           defaultContent: "",
+          vue: TestComponent,
         },
       ];
     },
