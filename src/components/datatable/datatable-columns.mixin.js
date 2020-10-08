@@ -39,8 +39,6 @@ const helper = {
     return function (cell, cellData, rowData, rowIndex, colIndex) {
       const Component = Vue.extend(VDatatableCell);
 
-      debugger;
-
       const scope = {
         cell,
         cellData,
@@ -51,7 +49,7 @@ const helper = {
       };
       const instance = new Component({
         propsData: {
-          component,
+          scopedSlots: component.$scopedSlots,
           scope
         },
       });
