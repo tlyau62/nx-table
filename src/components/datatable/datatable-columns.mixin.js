@@ -31,13 +31,16 @@ const helper = {
   /**
    * Impure
    */
-  createComponent(componentStore, scopedSlots) {
-    if (!scopedSlots || !scopedSlots.default) {
+  createComponent(componentStore, component) {
+    if (!component || !component.$scopedSlots.default) {
       return function () { };
     }
 
     return function (cell, cellData, rowData, rowIndex, colIndex) {
       const Component = Vue.extend(VDatatableCell);
+
+      debugger;
+
       const scope = {
         cell,
         cellData,
@@ -46,10 +49,10 @@ const helper = {
         colIndex,
         datatable: this.DataTable(),
       };
-
       const instance = new Component({
         propsData: {
-          vnodes: scopedSlots.default(scope)
+          component,
+          scope
         },
       });
 
@@ -64,7 +67,7 @@ const helper = {
   processColumns(componentStore, columns) {
     return (
       datatableService.addCreatedCell(columns, (col) =>
-        helper.createComponent(componentStore, col.scopedSlots)
+        helper.createComponent(componentStore, col.component)
       ) || []
     );
   },

@@ -2,44 +2,36 @@
   <div class="example-table">
     <h4>Example 3</h4>
     <b-button @click="incNumber">Inc number</b-button>
-    <v-datatable :rows="rows" :columns="columns" />
+    {{ number }}
+    <v-datatable :rows="rows">
+      <v-datatable-column title="Name" data="name" />
+      <v-datatable-column title="Salary" data="salary" />
+      <v-datatable-column title="Age" data="age" width="20px" />
+      <v-datatable-column title="Action" defaultContent="">
+        <template #default="scope">
+          {{ scope.rowData.name }} {{ number }}
+        </template>
+      </v-datatable-column>
+    </v-datatable>
   </div>
 </template>
 
 <script>
 import VDatatable from "@/components/datatable/VDatatable";
+import VDatatableColumn from "@/components/datatable/VDatatableColumn";
 import _ from "lodash";
-
-const ContextMenuComponent = {
-  props: ["cellData", "rowData", "rowIndex", "colIndex", "numberHolder"],
-  // eslint-disable-next-line no-unused-vars
-  render(h) {
-    return (
-      <b-dropdown text="Dropdown Button">
-        <b-dropdown-item>First Action</b-dropdown-item>
-        <b-dropdown-item>Second Action</b-dropdown-item>
-        <b-dropdown-item>Third Action</b-dropdown-item>
-        <b-dropdown-item>Number {this.numberHolder.number}</b-dropdown-item>
-        <b-dropdown-divider></b-dropdown-divider>
-        <b-dropdown-item active>Active action</b-dropdown-item>
-        <b-dropdown-item disabled>Disabled action</b-dropdown-item>
-      </b-dropdown>
-    );
-  },
-};
 
 export default {
   name: "ExampleTable",
   components: {
     VDatatable,
+    VDatatableColumn,
   },
   data() {
     return {
       rows: [],
       columns: [],
-      numberHolder: {
-        number: 10,
-      },
+      number: 10,
     };
   },
   created() {
@@ -54,21 +46,16 @@ export default {
         salary: 2000,
         age: 20,
       },
-    ];
-    this.columns = [
-      { title: "Name", data: "name" },
-      { title: "Salary", data: "salary" },
-      { title: "Age", data: "age", width: "20px" },
-      {
-        title: "Action",
-        component: [ContextMenuComponent, { numberHolder: this.numberHolder }],
-        defaultContent: "",
-      },
+      // {
+      //   name: "Tim",
+      //   salary: 200000,
+      //   age: 20,
+      // },
     ];
   },
   methods: {
     incNumber() {
-      this.numberHolder.number++;
+      this.number++;
     },
   },
 };

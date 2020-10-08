@@ -13,13 +13,21 @@
         <ExampleTable3 />
       </div> -->
 
-      <div class="example__section">
+      <!-- <div class="example__section">
         <ExampleTable />
-      </div>
+      </div> -->
+
+      <!-- <div class="example__section">
+        <ExampleTable2 />
+      </div> -->
 
       <div class="example__section">
-        <ExampleTable4 />
+        <ExampleTable3 />
       </div>
+
+      <!-- <div class="example__section">
+        <ExampleTable4 />
+      </div> -->
     </div>
   </div>
 </template>

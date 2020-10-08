@@ -1,11 +1,7 @@
 <template>
   <div class="example-table">
     <h4>Example 1</h4>
-    <v-datatable
-      :rows="rows"
-      :columns="columns"
-      :stripe-classes="['odd', 'even']"
-    >
+    <v-datatable :rows="rows" :stripe-classes="['odd', 'even']">
       <v-datatable-column title="Name" data="name" />
       <v-datatable-column title="Salary" data="salary" />
       <v-datatable-column title="Age" data="age" width="20px" />

@@ -33,20 +33,33 @@
       <h4>Table</h4>
       <v-datatable
         :rows="rows"
-        :columns="columns"
         :server-side="true"
         :processing="true"
         :select="{ style: 'os', blurable: true }"
         :row-reorder="true"
         @row-reordered="reorderRow"
         @order="order"
-      />
+      >
+        <v-datatable-column
+          v-for="(col, idx) of columns"
+          :key="idx"
+          :title="col.title"
+          :data="col.data"
+          :width="col.width"
+          :defaultContent="col.defaultContent"
+        >
+          <component :is="col.component" />
+        </v-datatable-column>
+
+        <v-datatable-column title="Name" data="name" />
+      </v-datatable>
     </div>
   </div>
 </template>
 
 <script>
 import VDatatable from "@/components/datatable/VDatatable";
+import VDatatableColumn from "@/components/datatable/VDatatableColumn";
 import _ from "lodash";
 
 const RenderComponent = {
@@ -74,6 +87,7 @@ export default {
   name: "ExampleTable2",
   components: {
     VDatatable,
+    VDatatableColumn,
   },
   data() {
     return {
