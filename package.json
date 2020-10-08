@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build:module": "vue-cli-service build --target lib src/components/datatable/VDatatable.vue --formats umd-min",
+    "build:module": "vue-cli-service build --target lib src/components/datatable/datatable.plugin.js --formats umd-min",
     "bulid:publish": "npm run build:module && npm publish"
   },
   "dependencies": {
