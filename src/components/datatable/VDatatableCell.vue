@@ -2,36 +2,29 @@
 export default {
   name: "VDatatableCell",
   props: ["context", "scope", "cellData"],
+  components: {
+    Vnodes: {
+      functional: true,
+      render(h, ctx) {
+        const vnodes = ctx.props.vnodes;
+
+        return vnodes.length > 1 ? <span>{vnodes}</span> : vnodes;
+      },
+    },
+  },
   render(h) {
     const defaultSlot = this.context.$scopedSlots.default;
 
+    // intentionally put here to trigger reaction
     this.context.$attrs && this.context.$listeners;
 
     if (defaultSlot) {
-      return deepClone(defaultSlot(this.scope), h);
+      const vnodes = defaultSlot(this.scope);
+
+      return <Vnodes vnodes={vnodes}></Vnodes>;
     } else {
       return this._v(this.cellData);
     }
   },
 };
-
-// https://stackoverflow.com/questions/51065172/how-can-i-duplicate-slots-within-a-vuejs-render-function
-function deepClone(vnodes, createElement) {
-  function cloneVNode(vnode) {
-    const clonedChildren =
-      vnode.children && vnode.children.map((vnode) => cloneVNode(vnode));
-    const cloned = createElement(vnode.tag, vnode.data, clonedChildren);
-    cloned.text = vnode.text;
-    cloned.isComment = vnode.isComment;
-    cloned.componentOptions = vnode.componentOptions;
-    cloned.elm = vnode.elm;
-    cloned.context = vnode.context;
-    cloned.ns = vnode.ns;
-    cloned.isStatic = vnode.isStatic;
-    cloned.key = vnode.key;
-    return cloned;
-  }
-  const clonedVNodes = vnodes.map((vnode) => cloneVNode(vnode));
-  return clonedVNodes;
-}
 </script>

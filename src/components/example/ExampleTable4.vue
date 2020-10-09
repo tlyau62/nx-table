@@ -21,6 +21,14 @@
           <b-dropdown-divider></b-dropdown-divider>
           <b-dropdown-item active>Active action</b-dropdown-item>
         </b-dropdown>
+        <b-dropdown text="Dropdown Button">
+          <b-dropdown-item @click="log">First Action</b-dropdown-item>
+          <b-dropdown-item>Second Action</b-dropdown-item>
+          <b-dropdown-item>Third Action</b-dropdown-item>
+          <b-dropdown-item>Number {{ number }}</b-dropdown-item>
+          <b-dropdown-divider></b-dropdown-divider>
+          <b-dropdown-item active>Active action</b-dropdown-item>
+        </b-dropdown>
       </v-datatable-column>
     </v-datatable>
   </div>
