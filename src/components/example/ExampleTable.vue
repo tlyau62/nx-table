@@ -5,6 +5,7 @@
       <v-datatable-column title="Name" data="name" />
       <v-datatable-column title="Salary" data="salary" />
       <v-datatable-column title="Age" data="age" width="20px" />
+      <v-datatable-column title="Job" data="job" />
     </v-datatable>
   </div>
 </template>
@@ -30,11 +31,13 @@ export default {
         name: "John",
         salary: 1000,
         age: 10,
+        job: null,
       },
       {
         name: "Peter",
         salary: 2000,
         age: 20,
+        job: "cook",
       },
     ];
   },

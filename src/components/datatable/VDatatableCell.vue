@@ -23,7 +23,7 @@ export default {
 
       return <Vnodes vnodes={vnodes}></Vnodes>;
     } else {
-      return this._v(this.cellData);
+      return this._v(this.cellData || "");
     }
   },
 };
