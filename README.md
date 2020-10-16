@@ -166,6 +166,12 @@ See [Datatable column](https://datatables.net/reference/option/columns)
 
   See [Datatable columns.className](https://datatables.net/reference/option/columns.className)
 
+- ```visible {Boolean}```
+
+  Indicate a column is visible
+
+  See [Datatable columns.visible](https://datatables.net/reference/option/columns.visible)
+
 ### Scoped slots (default)
 - ```cellData {String}```
 

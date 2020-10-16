@@ -6,6 +6,7 @@
     <v-datatable :rows="rows">
       <v-datatable-column title="Name" data="name"></v-datatable-column>
       <v-datatable-column title="Salary" data="salary"></v-datatable-column>
+      <v-datatable-column title="Invisible" data="salary" :visible="false"></v-datatable-column>
       <v-datatable-column
         title="Age"
         data="age"
