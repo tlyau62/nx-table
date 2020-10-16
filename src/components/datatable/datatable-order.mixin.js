@@ -4,6 +4,16 @@
  * order event handler should call first, then re-order event handler
  */
 export default {
+  props: {
+    // https://datatables.net/reference/option/order
+    order: {
+      type: [Array],
+      default: () => [],
+    }
+  },
+  beforeMount() {
+    this.config.order = this.order;
+  },
   watch: {
     table(table) {
       table.on("order.dt", (e, settings, ordArr) => {
@@ -12,6 +22,11 @@ export default {
 
         this.$emit("order", { e, settings, ordArr, ordCols, ordStr });
       });
-    }
+    },
+    order(val) {
+      if (this.table) {
+        this.table.order(val).draw();
+      }
+    },
   }
 };

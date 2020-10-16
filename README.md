@@ -100,6 +100,12 @@ export default {
 
   See [Datatable stripeClasses option](https://datatables.net/reference/option/stripeClasses)
 
+- ```order {Array}```
+
+  Order the table.
+
+  See [Datatable order option](https://datatables.net/reference/option/order)
+
 ### Listeners
 - rowReorder
 
