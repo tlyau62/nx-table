@@ -21,6 +21,8 @@ export default {
         this.config.columns.push(col);
       }
     });
+
+    datatableService.addPreDraw(this.config, () => this.$cleanComponentStore());
   },
   mounted() {
     this.config.columns = helper.processColumns(this.componentStore, this.config.columns);
@@ -33,7 +35,12 @@ export default {
       }
       this.componentStore = [];
     }
-  }
+  },
+  beforeDestroy() {
+    if (this.table) {
+      this.$cleanComponentStore();
+    }
+  },
 };
 
 const helper = {
@@ -56,7 +63,7 @@ const helper = {
         colIndex,
         datatable: this.DataTable(),
       };
-      
+
       $(cell).empty();
 
       const elChild = document.createElement('div');

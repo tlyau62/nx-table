@@ -125,8 +125,6 @@ export default {
       autoWidth: this.autoWidth,
       stripeClasses: this.stripeClasses,
     };
-
-    datatableService.addPreDraw(this.config, () => this.$cleanComponentStore());
   },
   mounted() {
     if (this.table) {
@@ -143,9 +141,7 @@ export default {
   },
   beforeDestroy() {
     if (this.table) {
-      this.$cleanComponentStore();
-      // this.table.destroy();
-      // this.table = null;
+      this.table.destroy();
       $(this.$el).empty();
     }
   },
