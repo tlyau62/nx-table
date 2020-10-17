@@ -1,14 +1,17 @@
 <script>
+import { Fragment } from "vue-fragment";
+
 export default {
   name: "VDatatableCell",
   props: ["context", "scope", "cellData"],
   components: {
+    Fragment,
     Vnodes: {
       functional: true,
       render(h, ctx) {
         const vnodes = ctx.props.vnodes;
 
-        return vnodes.length > 1 ? <span>{vnodes}</span> : vnodes;
+        return vnodes.length > 1 ? <fragment>{vnodes}</fragment> : vnodes;
       },
     },
   },

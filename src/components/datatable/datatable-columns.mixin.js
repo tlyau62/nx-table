@@ -56,19 +56,25 @@ const helper = {
         colIndex,
         datatable: this.DataTable(),
       };
+      
+      $(cell).empty();
+
+      const elChild = document.createElement('div');
+
+      $(cell).append(elChild);
+
       const instance = new Component({
         propsData: {
           context,
           scope,
           cellData
         },
+        el: elChild // fix multiple root problem
       });
 
+      instance.$mount();
+
       componentStore.push(instance);
-
-      $(cell).empty();
-
-      cell.appendChild(instance.$mount().$el);
     };
   },
 
