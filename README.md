@@ -12,29 +12,41 @@ Vue verson of datatable
 - https://medium.com/justfrontendthings/how-to-create-and-publish-your-own-vuejs-component-library-on-npm-using-vue-cli-28e60943eed3
 - https://cli.vuejs.org/guide/cli-service.html#vue-cli-service-build
 
+## Installation
+For vue, use the nx-table plugin from nx-table.
+```js
+import NxTable from 'nx-table';
+
+Vue.use(NxTable);
+```
+
+For css, import the datatable default css and nx-table css.
+```scss
+@import "~datatables.net-dt/css/jquery.dataTables.min.css";
+@import "~datatables.net-select-dt/css/select.dataTables.min.css";
+@import "~datatables.net-responsive-dt/css/responsive.dataTables.min.css";
+@import "~datatables.net-rowreorder-dt/css/rowReorder.dataTables.min.css";
+@import "~nx-table/dist/nx-table.css";
+```
+
 ## Usage
 ```vue
 <template>
   <div class="example-table">
-    <h4>Example 1</h4>
-    <v-datatable :rows="rows" :stripe-classes="['odd', 'even']">
-      <v-datatable-column title="Name" data="name" />
-      <v-datatable-column title="Salary" data="salary" />
-      <v-datatable-column title="Age" data="age" width="20px" />
-    </v-datatable>
+    <nx-table :rows="rows" :stripe-classes="['odd', 'even']">
+      <nx-table-column title="Name" data="name" />
+      <nx-table-column title="Salary" data="salary" />
+      <nx-table-column title="Age" data="age" width="20px" />
+      <nx-table-column title="Action" defaultContent="">
+        <button>test</button>
+      </nx-table-column>
+    </nx-table>
   </div>
 </template>
 
 <script>
-import VDatatable from "@/components/datatable/VDatatable";
-import VDatatableColumn from "@/components/datatable/VDatatableColumn";
-import _ from "lodash";
 export default {
   name: "ExampleTable",
-  components: {
-    VDatatable,
-    VDatatableColumn,
-  },
   data() {
     return {
       rows: [],
@@ -56,9 +68,6 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-</style>
 ```
 
 ## nx-table
