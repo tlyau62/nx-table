@@ -133,7 +133,14 @@ export default {
   - ```ordStr {String}``` : the ordered columns in query string format
 
   See [Datatable order event](https://datatables.net/reference/event/order)
+- select
 
+  Define the select listener for selections. Currently, only support row selections.
+
+  New properties
+  - ```selected {Array}``` : the selected rows
+
+  See [Datatable select event](https://datatables.net/reference/event/select)
 
 ## nx-table-column
 
