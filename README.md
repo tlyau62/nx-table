@@ -141,6 +141,15 @@ export default {
   - ```selected {Array}``` : the selected rows
 
   See [Datatable select event](https://datatables.net/reference/event/select)
+- deselect
+
+  Define the deselect listener for selections. Currently, only support row selections.
+
+  New properties
+  - ```selected {Array}``` : the selected rows
+  - ```deselected {Array}```: the deselected rows
+
+  See [Datatable deselect event](https://datatables.net/reference/event/deselect)
 
 ## nx-table-column
 
