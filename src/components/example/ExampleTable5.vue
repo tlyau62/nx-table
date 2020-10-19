@@ -4,13 +4,12 @@
     <div>
       <h5>Selected items</h5>
       <p>{{ selected }}</p>
-      <h5>Selected indexes</h5>
-      <p>{{ selectedIdxes }}</p>
     </div>
     <v-datatable
       :rows="rows"
-      :select="{ style: 'os', blurable: false }"
+      :select="{ style: 'os', blurable: true }"
       @select="select"
+      @deselect="deselect"
     >
       <v-datatable-column title="Name" data="name" />
       <v-datatable-column title="Salary" data="salary" />
@@ -34,7 +33,6 @@ export default {
     return {
       rows: [],
       selected: [],
-      selectedIdxes: [],
     };
   },
   created() {
@@ -55,8 +53,13 @@ export default {
   },
   methods: {
     select({ e, dt, type, indexes, selected }) {
+      console.log("select");
       this.selected = selected;
-      this.selectedIdxes = indexes;
+    },
+    deselect({ e, dt, type, indexes, selected, deselected }) {
+      console.log("deselect");
+      this.selected = selected;
+      console.log(deselected);
     },
   },
 };
