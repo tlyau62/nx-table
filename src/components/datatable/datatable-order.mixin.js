@@ -25,6 +25,7 @@ export default {
     },
     order(val) {
       if (this.table) {
+        // this.table.order(val).draw(); // Bad: it will trigger the order listener 
         this.$emit('refresh');
       }
     },
