@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 /**
  * This mixin should be registered before datatable-reorder.
  * if a table registers both order and reorder event,
@@ -12,7 +14,7 @@ export default {
     }
   },
   beforeMount() {
-    this.config.order = this.order;
+    this.config.order = _.clone(this.order);
   },
   watch: {
     table(table) {
