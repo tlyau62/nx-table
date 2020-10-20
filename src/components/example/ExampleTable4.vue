@@ -4,7 +4,7 @@
     <b-button @click="number++">inc</b-button>
     <b-button @click="changeOrder()">Change order</b-button>
     <div>{{ number }}</div>
-    <v-datatable :rows="rows" :order="order">
+    <v-datatable :rows="rows" :order="order" @order="logorder">
       <v-datatable-column title="Name" data="name"></v-datatable-column>
       <v-datatable-column title="Salary" data="salary"></v-datatable-column>
       <v-datatable-column
@@ -56,7 +56,7 @@ export default {
     return {
       rows: [],
       number: 10,
-      order: [],
+      order: [[0, "asc"]],
     };
   },
   created() {
@@ -85,6 +85,9 @@ export default {
       const order = this.order[0][0];
 
       this.order = [[order === 0 ? 1 : 0, "asc"]];
+    },
+    logorder(order) {
+      console.log(order);
     },
   },
 };

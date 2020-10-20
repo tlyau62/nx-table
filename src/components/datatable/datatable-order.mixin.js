@@ -25,7 +25,7 @@ export default {
     },
     order(val) {
       if (this.table) {
-        this.table.order(val).draw();
+        this.$emit('refresh');
       }
     },
   }
