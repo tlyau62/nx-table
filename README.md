@@ -96,6 +96,21 @@ export default {
 
     See [Datatable select option](https://datatables.net/reference/option/select)
 
+- ```selected {Array}```
+
+  Select certain rows. The array's element is any row data.
+  Use together with ```sync``` modifier to get back the selected rows.
+
+  ```vue
+  <v-datatable
+    :rows="rows"
+    :select="{ style: 'os' }"
+    :selected.sync="selected"
+  />
+  ```
+
+  See [Datatable select api](https://datatables.net/reference/api/rows().select())
+
 - ```rowReorder {Boolean, Object}```
 
   Enable row reorder. You may also need to listen for row reorder event.
@@ -133,23 +148,6 @@ export default {
   - ```ordStr {String}``` : the ordered columns in query string format
 
   See [Datatable order event](https://datatables.net/reference/event/order)
-- select
-
-  Define the select listener for selections. Currently, only support row selections.
-
-  New properties
-  - ```selected {Array}``` : the selected rows
-
-  See [Datatable select event](https://datatables.net/reference/event/select)
-- deselect
-
-  Define the deselect listener for selections. Currently, only support row selections.
-
-  New properties
-  - ```selected {Array}``` : the selected rows
-  - ```deselected {Array}```: the deselected rows
-
-  See [Datatable deselect event](https://datatables.net/reference/event/deselect)
 
 ## nx-table-column
 
