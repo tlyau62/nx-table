@@ -15,8 +15,6 @@
       :rows="rows"
       :select="{ style: 'os' }"
       :selected.sync="selected"
-      @select="select"
-      @deselect="deselect"
     >
       <v-datatable-column title="Name" data="name" />
       <v-datatable-column title="Salary" data="salary" />
@@ -60,15 +58,6 @@ export default {
     ];
   },
   methods: {
-    select({ e, dt, type, indexes, selected }) {
-      console.log("select");
-      this.selectedRows = selected;
-    },
-    deselect({ e, dt, type, indexes, selected, deselected }) {
-      console.log("deselect");
-      this.selectedRows = selected;
-      console.log(deselected);
-    },
     setSelect() {
       const selectedRows = JSON.parse(this.selectedRows);
 
