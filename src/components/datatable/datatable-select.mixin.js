@@ -31,7 +31,7 @@ export default {
     },
     selected(selected) {
       if (this.select) {
-        if (!this.isSameArray(selected, this.currentSelect)) {
+        if (selected !== this.currentSelect) {
           this.setSelectRows(selected);
         }
       }
@@ -41,18 +41,11 @@ export default {
     setSelectRows(selected) {
       const indexes = selected.map(s => this.rows.findIndex(r => r === s));
 
-      this.table.rows().deselect();
+      this.table.rows({ selected: true }).deselect();
       this.table.rows(indexes).select();
     },
     getSelectedRow() {
       return data(this.table.rows({ selected: true }).data());
     },
-    isSameArray(arr1, arr2) {
-      arr1 = _.clone(arr1);
-      arr2 = _.clone(arr2);
-      const equal = _.isEqual(arr1.sort(), arr2.sort());
-
-      return equal;
-    }
   }
 };
