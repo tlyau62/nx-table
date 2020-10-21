@@ -1,5 +1,5 @@
 import { data } from './datatable.utility';
-import { curry, clone } from 'lodash';
+import _ from 'lodash';
 
 export default {
   props: {
@@ -8,46 +8,51 @@ export default {
       type: [Boolean, Object],
       default: false,
     },
-  },
-  data() {
-    return {
-      selected: []
+
+    selected: {
+      type: [Array],
+      default: () => []
     }
   },
   beforeMount() {
-    this.config.select = this.select;
+    this.config.select = _.clone(this.select);
+  },
+  created() {
+    this.currentSelect = [];
   },
   watch: {
     table(table) {
       if (this.select) {
-        const tableSelect = helper.select(table);
-        const tableDeselect = helper.deselect(table);
+        table.on('select', () => this.$emit('update:selected', this.currentSelect = this.getSelectedRow()));
+        table.on('deselect', () => this.$emit('update:selected', this.currentSelect = this.getSelectedRow()));
 
-        table.on('select', (e, dt, type, indexes) => this.$emit('select', tableSelect({ e, dt, type, indexes })));
-        table.on('deselect', (e, dt, type, indexes) => this.$emit('deselect', tableDeselect({ e, dt, type, indexes })));
+        this.setSelectRows(this.selected);
+      }
+    },
+    selected(selected) {
+      if (this.select) {
+        if (!this.isSameArray(selected, this.currentSelect)) {
+          this.setSelectRows(selected);
+        }
       }
     }
+  },
+  methods: {
+    setSelectRows(selected) {
+      const indexes = selected.map(s => this.rows.findIndex(r => r === s));
+
+      this.table.rows().deselect();
+      this.table.rows(indexes).select();
+    },
+    getSelectedRow() {
+      return data(this.table.rows({ selected: true }).data());
+    },
+    isSameArray(arr1, arr2) {
+      arr1 = _.clone(arr1);
+      arr2 = _.clone(arr2);
+      const equal = _.isEqual(arr1.sort(), arr2.sort());
+
+      return equal;
+    }
   }
-};
-
-const helper = {
-  select: curry((table, evt) => {
-    const newEvt = { ...evt };
-    const selected = table.rows({ selected: true });
-
-    newEvt.selected = data(selected.data());
-    newEvt.indexes = data(selected.indexes())
-
-    return newEvt;
-  }),
-  deselect: curry((table, evt) => {
-    const newEvt = { ...evt };
-    const selected = helper.select(table, evt);
-    const deselected = table.rows(newEvt.indexes);
-
-    newEvt.deselected = data(deselected.data());
-    newEvt.selected = selected.selected;
-
-    return newEvt;
-  })
 };

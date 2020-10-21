@@ -5,9 +5,16 @@
       <h5>Selected items</h5>
       <p>{{ selected }}</p>
     </div>
+    <div>
+      <label>
+        <input type="text" v-model="selectedRows" />
+        <button @click="setSelect">Set select</button>
+      </label>
+    </div>
     <v-datatable
       :rows="rows"
-      :select="{ style: 'os', blurable: true }"
+      :select="{ style: 'os' }"
+      :selected.sync="selected"
       @select="select"
       @deselect="deselect"
     >
@@ -33,6 +40,7 @@ export default {
     return {
       rows: [],
       selected: [],
+      selectedRows: "",
     };
   },
   created() {
@@ -54,12 +62,17 @@ export default {
   methods: {
     select({ e, dt, type, indexes, selected }) {
       console.log("select");
-      this.selected = selected;
+      this.selectedRows = selected;
     },
     deselect({ e, dt, type, indexes, selected, deselected }) {
       console.log("deselect");
-      this.selected = selected;
+      this.selectedRows = selected;
       console.log(deselected);
+    },
+    setSelect() {
+      const selectedRows = JSON.parse(this.selectedRows);
+
+      this.selected = selectedRows.map((row) => this.rows[row]);
     },
   },
 };
