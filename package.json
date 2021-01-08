@@ -49,6 +49,7 @@
     "raw-loader": "^4.0.1",
     "style-loader": "^1.2.1",
     "urijs": "^1.19.2",
+    "uuid": "^3.4.0",
     "v-select2-component": "^0.4.3",
     "vue": "^2.6.11",
     "vue-avatar": "^2.3.0",
