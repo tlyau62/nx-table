@@ -3,6 +3,9 @@
 </template>
 
 <script>
+import { v4 as uuidv4 } from "uuid";
+import $ from "jquery";
+
 export default {
   name: "VDatatableColumn",
   props: [
@@ -14,6 +17,11 @@ export default {
     "className",
     "visible",
   ],
+  data() {
+    return {
+      name: uuidv4(),
+    };
+  },
   beforeMount() {
     this.$parent.$emit("column-created", {
       title: this.title,
@@ -24,7 +32,17 @@ export default {
       orderable: this.orderable,
       className: this.className,
       visible: this.visible,
+      name: this.name,
     });
+  },
+  watch: {
+    title(title) {
+      if (this.$parent.table) {
+        const header = this.$parent.table.column(`${this.name}:name`).header();
+
+        $(header).text(title);
+      }
+    },
   },
 };
 </script>
