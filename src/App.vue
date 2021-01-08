@@ -20,6 +20,10 @@
       <div class="example__section">
         <ExampleTable5 />
       </div>
+
+      <div class="example__section">
+        <ExampleTable6 />
+      </div>
     </div>
   </div>
 </template>
@@ -30,6 +34,7 @@ import ExampleTable2 from "@/components/example/ExampleTable2";
 import ExampleTable3 from "@/components/example/ExampleTable3";
 import ExampleTable4 from "@/components/example/ExampleTable4";
 import ExampleTable5 from "@/components/example/ExampleTable5";
+import ExampleTable6 from "@/components/example/ExampleTable6";
 
 export default {
   name: "App",
@@ -39,6 +44,7 @@ export default {
     ExampleTable3,
     ExampleTable4,
     ExampleTable5,
+    ExampleTable6,
   },
 };
 </script>
