@@ -9,6 +9,10 @@ export default {
     Vnodes: {
       functional: true,
       render(h, ctx) {
+        if (!ctx.props.vnodes) {
+          return;
+        }
+
         const vnodes = ctx.props.vnodes;
 
         return vnodes.length > 1 ? <fragment>{vnodes}</fragment> : vnodes;
