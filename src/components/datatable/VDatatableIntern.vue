@@ -161,6 +161,13 @@ export default {
 };
 </script>
 
+<style>
+@import "~datatables.net-dt/css/jquery.dataTables.min.css";
+@import "~datatables.net-select-dt/css/select.dataTables.min.css";
+@import "~datatables.net-responsive-dt/css/responsive.dataTables.min.css";
+@import "~datatables.net-rowreorder-dt/css/rowReorder.dataTables.min.css";
+</style>
+
 <style lang="scss" scoped>
 .internal-table {
   width: 100%;
