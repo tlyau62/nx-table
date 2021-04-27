@@ -25,7 +25,7 @@ export default {
     datatableService.addPreDraw(this.config, () => this.$cleanComponentStore());
   },
   mounted() {
-    this.config.columns = helper.processColumns(this.componentStore, this.config.columns);
+    this.config.columns = helper.processColumns(this.componentStore, this.config.columns, this);
     this.init = true;
   },
   methods: {
@@ -47,7 +47,7 @@ const helper = {
   /**
    * Impure
    */
-  createComponent(componentStore, context) {
+  createComponent(componentStore, context, parent) {
     return function (cell, cellData, rowData, rowIndex, colIndex) {
       if (!context) {
         return;
@@ -76,7 +76,8 @@ const helper = {
           scope,
           cellData
         },
-        el: elChild // fix multiple root problem
+        el: elChild, // fix multiple root problem
+        parent
       });
 
       instance.$mount();
@@ -85,10 +86,10 @@ const helper = {
     };
   },
 
-  processColumns(componentStore, columns) {
+  processColumns(componentStore, columns, parent) {
     return (
       datatableService.addCreatedCell(columns, (col) =>
-        helper.createComponent(componentStore, col.context)
+        helper.createComponent(componentStore, col.context, parent)
       ) || []
     );
   },
